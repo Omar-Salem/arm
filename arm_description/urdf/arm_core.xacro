@@ -80,4 +80,13 @@
   <limit upper="3.141593" lower="0.0" effort="100" velocity="100"/>
 </joint>
 
+    <link name="world"/>
+
+    <joint name="world" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+
 </robot>
