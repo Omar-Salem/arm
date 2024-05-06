@@ -55,7 +55,7 @@ def create_controller_nodes() -> list:
 
     :rtype: list
     """
-    robot_controller_names = ['joint_state_broadcaster', 'forward_command_controller']
+    robot_controller_names = ['joint_state_broadcaster', 'joint_trajectory_controller']
     robot_controller_spawners = []
     for controller in robot_controller_names:
         robot_controller_spawners += [

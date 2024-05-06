@@ -50,7 +50,7 @@ def generate_launch_description():
 
 
 def create_controller_nodes(package_name, robot_description_config):
-    robot_controller_names = ['joint_state_broadcaster', 'forward_command_controller']
+    robot_controller_names = ['joint_state_broadcaster', 'joint_trajectory_controller']
     robot_controller_spawners = []
     for controller in robot_controller_names:
         robot_controller_spawners += [

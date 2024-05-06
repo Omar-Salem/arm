@@ -5,12 +5,18 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    forward_command_controller:
-      type: forward_command_controller/ForwardCommandController
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
 
-forward_command_controller:
+joint_trajectory_controller:
   ros__parameters:
     joints:
       - base_joint
       - shoulder_joint
-    interface_name: position
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+    allow_partial_joints_goal : true
