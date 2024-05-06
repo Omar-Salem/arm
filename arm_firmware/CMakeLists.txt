@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(ugv_chassis_firmware)
+project(arm_firmware)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -15,12 +15,12 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(ugv_interfaces REQUIRED)
 
-set(HW_INTERFACE_LIB "ugv_chassis_firmware")
+set(HW_INTERFACE_LIB "arm_firmware")
 
 add_library(
   ${HW_INTERFACE_LIB}
   SHARED
-  src/ugv_chassis_hardware.cpp
+  src/arm_hardware.cpp
 )
 target_include_directories(
   ${HW_INTERFACE_LIB}
@@ -66,10 +66,10 @@ if(BUILD_TESTING)
   find_package(ament_cmake_gmock REQUIRED)
   find_package(ros2_control_test_assets REQUIRED)
 
-  ament_add_gmock(test_ugv_chassis_hardware test/test_ugv_chassis_hardware.cpp)
-  target_include_directories(test_ugv_chassis_hardware PRIVATE include)
+  ament_add_gmock(test_arm_hardware test/test_arm_hardware.cpp)
+  target_include_directories(test_arm_hardware PRIVATE include)
   ament_target_dependencies(
-    test_ugv_chassis_hardware
+    test_arm_hardware
     hardware_interface
     pluginlib
     ros2_control_test_assets

@@ -16,11 +16,11 @@
 #include <limits>
 #include <vector>
 
-#include "ugv_chassis_firmware/ugv_chassis_hardware.hpp"
+#include "arm_firmware/arm_hardware.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-namespace ugv_chassis_firmware {
+namespace arm_firmware {
     UGVChassisHardware::UGVChassisHardware() : node_(std::make_shared<rclcpp::Node>("ugv_motors_hw_interface_node")) {
         odomSubscription = node_->create_subscription<ugv_interfaces::msg::MotorsOdom>(
                 "ugv/motors_state", 10,
@@ -161,10 +161,10 @@ namespace ugv_chassis_firmware {
 //        rearRightWheel->velocity_state = motorsOdom->rear_right.velocity;
     }
 
-}  // namespace ugv_chassis_firmware
+}  // namespace arm_firmware
 
 #include "pluginlib/class_list_macros.hpp"
 
 PLUGINLIB_EXPORT_CLASS(
-        ugv_chassis_firmware::UGVChassisHardware, hardware_interface::SystemInterface
+        arm_firmware::UGVChassisHardware, hardware_interface::SystemInterface
 )

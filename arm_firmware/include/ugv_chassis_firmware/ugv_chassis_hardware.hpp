@@ -13,8 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef UGV_CHASSIS_FIRMWARE__UGV_CHASSIS_HARDWARE_HPP_
-#define UGV_CHASSIS_FIRMWARE__UGV_CHASSIS_HARDWARE_HPP_
+#ifndef arm_FIRMWARE__arm_HARDWARE_HPP_
+#define arm_FIRMWARE__arm_HARDWARE_HPP_
 
 #include <string>
 #include <vector>
@@ -34,7 +34,7 @@ using namespace std;
 using namespace rclcpp;
 using namespace rclcpp_lifecycle;
 using namespace hardware_interface;
-namespace ugv_chassis_firmware {
+namespace arm_firmware {
     class UGVChassisHardware : public SystemInterface {
     public:
         UGVChassisHardware();
@@ -82,6 +82,6 @@ namespace ugv_chassis_firmware {
         void readOdom(const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom);
     };
 
-}  // namespace ugv_chassis_firmware
+}  // namespace arm_firmware
 
-#endif  // UGV_CHASSIS_FIRMWARE__UGV_CHASSIS_HARDWARE_HPP_
+#endif  // arm_FIRMWARE__arm_HARDWARE_HPP_

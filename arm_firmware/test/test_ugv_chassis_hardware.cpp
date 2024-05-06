@@ -27,11 +27,11 @@ protected:
   void SetUp() override
   {
     // TODO(anyone): Extend this description to your robot
-    ugv_chassis_hardware_2dof_ =
+    arm_hardware_2dof_ =
       R"(
         <ros2_control name="UGVChassisHardware2dof" type="system">
           <hardware>
-            <plugin>ugv_chassis_firmware/UGVChassisHardware</plugin>
+            <plugin>arm_firmware/UGVChassisHardware</plugin>
           </hardware>
           <joint name="joint1">
             <command_interface name="position"/>
@@ -47,12 +47,12 @@ protected:
     )";
   }
 
-  std::string ugv_chassis_hardware_2dof_;
+  std::string arm_hardware_2dof_;
 };
 
-TEST_F(TestUGVChassisHardware, load_ugv_chassis_hardware_2dof)
+TEST_F(TestUGVChassisHardware, load_arm_hardware_2dof)
 {
-  auto urdf = ros2_control_test_assets::urdf_head + ugv_chassis_hardware_2dof_ +
+  auto urdf = ros2_control_test_assets::urdf_head + arm_hardware_2dof_ +
               ros2_control_test_assets::urdf_tail;
   ASSERT_NO_THROW(hardware_interface::ResourceManager rm(urdf));
 }
