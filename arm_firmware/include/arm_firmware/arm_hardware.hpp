@@ -13,8 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef arm_FIRMWARE__arm_HARDWARE_HPP_
-#define arm_FIRMWARE__arm_HARDWARE_HPP_
+#ifndef ARM_FIRMWARE__ARM_HARDWARE_HPP_
+#define ARM_FIRMWARE__ARM_HARDWARE_HPP_
 
 #include <string>
 #include <vector>
@@ -84,4 +84,4 @@ namespace arm_firmware {
 
 }  // namespace arm_firmware
 
-#endif  // arm_FIRMWARE__arm_HARDWARE_HPP_
+#endif  // ARM_FIRMWARE__ARM_HARDWARE_HPP_
