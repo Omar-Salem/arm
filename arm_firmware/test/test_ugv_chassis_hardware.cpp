@@ -21,7 +21,7 @@
 #include "ros2_control_test_assets/components_urdfs.hpp"
 #include "ros2_control_test_assets/descriptions.hpp"
 
-class TestUGVChassisHardware : public ::testing::Test
+class TestArmHardware : public ::testing::Test
 {
 protected:
   void SetUp() override
@@ -29,9 +29,9 @@ protected:
     // TODO(anyone): Extend this description to your robot
     arm_hardware_2dof_ =
       R"(
-        <ros2_control name="UGVChassisHardware2dof" type="system">
+        <ros2_control name="ArmHardware2dof" type="system">
           <hardware>
-            <plugin>arm_firmware/UGVChassisHardware</plugin>
+            <plugin>arm_firmware/ArmHardware</plugin>
           </hardware>
           <joint name="joint1">
             <command_interface name="position"/>
@@ -50,7 +50,7 @@ protected:
   std::string arm_hardware_2dof_;
 };
 
-TEST_F(TestUGVChassisHardware, load_arm_hardware_2dof)
+TEST_F(TestArmHardware, load_arm_hardware_2dof)
 {
   auto urdf = ros2_control_test_assets::urdf_head + arm_hardware_2dof_ +
               ros2_control_test_assets::urdf_tail;

@@ -13,7 +13,7 @@ find_package(pluginlib REQUIRED)
 find_package(hardware_interface REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
-find_package(ugv_interfaces REQUIRED)
+find_package(arm_interfaces REQUIRED)
 
 set(HW_INTERFACE_LIB "arm_firmware")
 
@@ -32,7 +32,7 @@ ament_target_dependencies(
   hardware_interface
   rclcpp
   rclcpp_lifecycle
-  ugv_interfaces
+  arm_interfaces
 )
 # prevent pluginlib from using boost
 target_compile_definitions(${HW_INTERFACE_LIB} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")

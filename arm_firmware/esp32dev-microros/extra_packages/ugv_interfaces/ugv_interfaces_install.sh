@@ -1,3 +1,3 @@
 #!/bin/bash
 
-colcon build --packages-select ugv_interfaces
+colcon build --packages-select arm_interfaces

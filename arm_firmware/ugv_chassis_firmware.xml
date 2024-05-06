@@ -1,6 +1,6 @@
 <library path="arm_firmware">
-  <class name="arm_firmware/UGVChassisHardware"
-         type="arm_firmware::UGVChassisHardware"
+  <class name="arm_firmware/ArmHardware"
+         type="arm_firmware::ArmHardware"
          base_class_type="hardware_interface::SystemInterface">
     <description>
       Chassis differential drive

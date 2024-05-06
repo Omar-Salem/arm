@@ -21,19 +21,19 @@
 #include "rclcpp/rclcpp.hpp"
 
 namespace arm_firmware {
-    UGVChassisHardware::UGVChassisHardware() : node_(std::make_shared<rclcpp::Node>("ugv_motors_hw_interface_node")) {
-        odomSubscription = node_->create_subscription<ugv_interfaces::msg::MotorsOdom>(
-                "ugv/motors_state", 10,
-                [this](const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom) {
+    ArmHardware::ArmHardware() : node_(std::make_shared<rclcpp::Node>("arm_motors_hw_interface_node")) {
+        odomSubscription = node_->create_subscription<arm_interfaces::msg::MotorsOdom>(
+                "arm/motors_state", 10,
+                [this](const arm_interfaces::msg::MotorsOdom::SharedPtr motorsOdom) {
                     this->readOdom(motorsOdom);
                 });
-        velocityPublisher = node_->create_publisher<ugv_interfaces::msg::MotorsOdom>("ugv/motors_cmd",
+        velocityPublisher = node_->create_publisher<arm_interfaces::msg::MotorsOdom>("arm/motors_cmd",
                                                                                      10);
     }
 
-    CallbackReturn UGVChassisHardware::on_init(
+    CallbackReturn ArmHardware::on_init(
             const HardwareInfo &info) {
-        RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_init ...please wait...");
+        RCLCPP_INFO(get_logger("ArmHardware"), "on_init ...please wait...");
 
         if (SystemInterface::on_init(info) != CallbackReturn::SUCCESS) {
             return CallbackReturn::ERROR;
@@ -45,14 +45,14 @@ namespace arm_firmware {
         return CallbackReturn::SUCCESS;
     }
 
-    CallbackReturn UGVChassisHardware::on_configure(
+    CallbackReturn ArmHardware::on_configure(
             const State & /*previous_state*/) {
-        RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_configure ...please wait...");
+        RCLCPP_INFO(get_logger("ArmHardware"), "on_configure ...please wait...");
         return CallbackReturn::SUCCESS;
     }
 
-    vector <StateInterface> UGVChassisHardware::export_state_interfaces() {
-        RCLCPP_INFO(get_logger("UGVChassisHardware"), "export_state_interfaces ...please wait...");
+    vector <StateInterface> ArmHardware::export_state_interfaces() {
+        RCLCPP_INFO(get_logger("ArmHardware"), "export_state_interfaces ...please wait...");
         vector <StateInterface> state_interfaces;
 
 //        frontLeftWheel
@@ -86,8 +86,8 @@ namespace arm_firmware {
         return state_interfaces;
     }
 
-    vector <CommandInterface> UGVChassisHardware::export_command_interfaces() {
-        RCLCPP_INFO(get_logger("UGVChassisHardware"), "export_command_interfaces ...please wait...");
+    vector <CommandInterface> ArmHardware::export_command_interfaces() {
+        RCLCPP_INFO(get_logger("ArmHardware"), "export_command_interfaces ...please wait...");
         vector <CommandInterface> command_interfaces;
         command_interfaces.emplace_back(
                 frontLeftWheel->name, HW_IF_VELOCITY, &frontLeftWheel->velocity_command);
@@ -101,32 +101,32 @@ namespace arm_firmware {
         return command_interfaces;
     }
 
-    CallbackReturn UGVChassisHardware::on_activate(
+    CallbackReturn ArmHardware::on_activate(
             const State & /*previous_state*/) {
-        RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_activate ...please wait...");
+        RCLCPP_INFO(get_logger("ArmHardware"), "on_activate ...please wait...");
         return CallbackReturn::SUCCESS;
     }
 
-    CallbackReturn UGVChassisHardware::on_deactivate(
+    CallbackReturn ArmHardware::on_deactivate(
             const State & /*previous_state*/) {
-        RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_deactivate ...please wait...");
+        RCLCPP_INFO(get_logger("ArmHardware"), "on_deactivate ...please wait...");
         setMotorsVelocity(0, 0, 0, 0);
         return CallbackReturn::SUCCESS;
     }
 
-    return_type UGVChassisHardware::read(
+    return_type ArmHardware::read(
             const Time & /*time*/, const Duration & /*period*/) {
         rclcpp::spin_some(node_);
         return return_type::OK;
     }
 
-    return_type UGVChassisHardware::write(
+    return_type ArmHardware::write(
             const Time & /*time*/, const Duration & /*period*/) {
 
-//        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontLeftWheel->velocity_command %f",frontLeftWheel->velocity_command);
-//        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontRightWheel->velocity_command %f",frontRightWheel->velocity_command);
-//        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
-//        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
+//        RCLCPP_INFO(get_logger("ArmHardware"), "frontLeftWheel->velocity_command %f",frontLeftWheel->velocity_command);
+//        RCLCPP_INFO(get_logger("ArmHardware"), "frontRightWheel->velocity_command %f",frontRightWheel->velocity_command);
+//        RCLCPP_INFO(get_logger("ArmHardware"), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
+//        RCLCPP_INFO(get_logger("ArmHardware"), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
 
         setMotorsVelocity(frontLeftWheel->velocity_command,
                           frontRightWheel->velocity_command,
@@ -135,11 +135,11 @@ namespace arm_firmware {
         return return_type::OK;
     }
 
-    void UGVChassisHardware::setMotorsVelocity(double frontLeft,
+    void ArmHardware::setMotorsVelocity(double frontLeft,
                                                double frontRight,
                                                double rearLeft,
                                                double rearRight) {
-        auto cmd_msg = std::make_shared<ugv_interfaces::msg::MotorsOdom>();
+        auto cmd_msg = std::make_shared<arm_interfaces::msg::MotorsOdom>();
         cmd_msg->front_left.velocity = frontLeft;
         cmd_msg->front_right.velocity = frontRight;
         cmd_msg->rear_left.velocity = rearLeft;
@@ -147,7 +147,7 @@ namespace arm_firmware {
         velocityPublisher->publish(*cmd_msg);
     }
 
-    void UGVChassisHardware::readOdom(const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom) {
+    void ArmHardware::readOdom(const arm_interfaces::msg::MotorsOdom::SharedPtr motorsOdom) {
         frontLeftWheel->position_state = motorsOdom->front_left.position;
 //        frontLeftWheel->velocity_state = motorsOdom->front_left.velocity;
 
@@ -166,5 +166,5 @@ namespace arm_firmware {
 #include "pluginlib/class_list_macros.hpp"
 
 PLUGINLIB_EXPORT_CLASS(
-        arm_firmware::UGVChassisHardware, hardware_interface::SystemInterface
+        arm_firmware::ArmHardware, hardware_interface::SystemInterface
 )

@@ -26,8 +26,8 @@
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
 #include "rclcpp/macros.hpp"
 #include "rclcpp_lifecycle/state.hpp"
-#include "ugv_interfaces/msg/motor.hpp"
-#include "ugv_interfaces/msg/motors_odom.hpp"
+#include "arm_interfaces/msg/motor.hpp"
+#include "arm_interfaces/msg/motors_odom.hpp"
 #include "Wheel.h"
 
 using namespace std;
@@ -35,9 +35,9 @@ using namespace rclcpp;
 using namespace rclcpp_lifecycle;
 using namespace hardware_interface;
 namespace arm_firmware {
-    class UGVChassisHardware : public SystemInterface {
+    class ArmHardware : public SystemInterface {
     public:
-        UGVChassisHardware();
+        ArmHardware();
 
         CallbackReturn on_init(
                 const HardwareInfo &info) override;
@@ -74,12 +74,12 @@ namespace arm_firmware {
         unique_ptr <Wheel> rearLeftWheel;
         unique_ptr <Wheel> rearRightWheel;
         std::shared_ptr <rclcpp::Node> node_;
-        rclcpp::Subscription<ugv_interfaces::msg::MotorsOdom>::SharedPtr odomSubscription;
-        rclcpp::Publisher<ugv_interfaces::msg::MotorsOdom>::SharedPtr velocityPublisher;
+        rclcpp::Subscription<arm_interfaces::msg::MotorsOdom>::SharedPtr odomSubscription;
+        rclcpp::Publisher<arm_interfaces::msg::MotorsOdom>::SharedPtr velocityPublisher;
 
         void setMotorsVelocity(double frontLeft, double frontRight, double rearLeft, double rearRight);
 
-        void readOdom(const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom);
+        void readOdom(const arm_interfaces::msg::MotorsOdom::SharedPtr motorsOdom);
     };
 
 }  // namespace arm_firmware

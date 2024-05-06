@@ -8,8 +8,8 @@
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
 
-#include <ugv_interfaces/msg/motor.h>
-#include <ugv_interfaces/msg/motors_odom.h>
+#include <arm_interfaces/msg/motor.h>
+#include <arm_interfaces/msg/motors_odom.h>
 #include "TwoPinStepperMotor.h"
 
 #if !defined(MICRO_ROS_TRANSPORT_ARDUINO_SERIAL)
@@ -17,7 +17,7 @@
 #endif
 
 rcl_subscription_t velocityCommandSubscriber;
-ugv_interfaces__msg__MotorsOdom velocityCommandCallbackMessage;
+arm_interfaces__msg__MotorsOdom velocityCommandCallbackMessage;
 rclc_executor_t subscriberExecutor;
 
 rcl_publisher_t odomStatePublisher;
@@ -71,7 +71,7 @@ TaskHandle_t moveMotorsTask;
 // }
 
 void velocityCommandCallback(const void *msgin) {
-    const ugv_interfaces__msg__MotorsOdom *command = (const ugv_interfaces__msg__MotorsOdom *) msgin;
+    const arm_interfaces__msg__MotorsOdom *command = (const arm_interfaces__msg__MotorsOdom *) msgin;
     front_left.setVelocity(command->front_left.velocity);
     front_right.setVelocity(command->front_right.velocity);
 
@@ -82,7 +82,7 @@ void velocityCommandCallback(const void *msgin) {
 void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time) {
     RCLC_UNUSED(last_call_time);
     if (timer != NULL) {
-        ugv_interfaces__msg__MotorsOdom msg;
+        arm_interfaces__msg__MotorsOdom msg;
 
         msg.front_left.position = front_left.getPosition();
 //        msg.front_left.velocity = front_left.getAngularVelocity();
@@ -102,7 +102,7 @@ void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time) {
 
 void createStatePublisher() {
 
-    const rosidl_message_type_support_t *type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(ugv_interfaces, msg,
+    const rosidl_message_type_support_t *type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(arm_interfaces, msg,
                                                                                     MotorsOdom);
 
 
@@ -110,7 +110,7 @@ void createStatePublisher() {
             &odomStatePublisher,
             &node,
             type_support,
-            "ugv/motors_state"));
+            "arm/motors_state"));
 
     // create timer
     RCSOFTCHECK(rclc_timer_init_default(
@@ -126,14 +126,14 @@ void createStatePublisher() {
 }
 
 void createCommandSubscriber() {
-    const rosidl_message_type_support_t *type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(ugv_interfaces, msg,
+    const rosidl_message_type_support_t *type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(arm_interfaces, msg,
                                                                                     MotorsOdom);
 
     RCSOFTCHECK(rclc_subscription_init_default(
             &velocityCommandSubscriber,
             &node,
             type_support,
-            "ugv/motors_cmd"));
+            "arm/motors_cmd"));
 
 
     RCSOFTCHECK(rclc_executor_init(&subscriberExecutor, &support.context, 1, &allocator));
@@ -153,7 +153,7 @@ void setup() {
 
     RCSOFTCHECK(rclc_support_init(&support, 0, NULL, &allocator));
 
-    RCSOFTCHECK(rclc_node_init_default(&node, "micro_ros_ugv_motors", "", &support));
+    RCSOFTCHECK(rclc_node_init_default(&node, "micro_ros_arm_motors", "", &support));
 
     createStatePublisher();
 
