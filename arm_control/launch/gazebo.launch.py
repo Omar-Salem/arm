@@ -8,6 +8,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, PathJoinSubstitution, LaunchConfiguration
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from launch.conditions import IfCondition
 
 
 def generate_launch_description():
@@ -37,12 +38,14 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         arguments=['-d', rviz_config_file],
-        output='screen'
+        output='screen',
+        condition=IfCondition(LaunchConfiguration("use_rviz")),
     )
 
     return LaunchDescription(
         create_gazebo_nodes() +
         [
+            DeclareLaunchArgument("use_rviz", default_value='True'),
             robot_state_publisher_node,
             rviz_node
         ] +
