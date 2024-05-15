@@ -28,7 +28,7 @@
 #include "rclcpp_lifecycle/state.hpp"
 #include "arm_interfaces/msg/motor.hpp"
 #include "arm_interfaces/msg/motors_odom.hpp"
-#include "Wheel.h"
+#include "Motor.h"
 
 using namespace std;
 using namespace rclcpp;
@@ -69,15 +69,13 @@ namespace arm_firmware {
                 const rclcpp::Time &time, const rclcpp::Duration &period) override;
 
     private:
-        unique_ptr <Wheel> frontLeftWheel;
-        unique_ptr <Wheel> frontRightWheel;
-        unique_ptr <Wheel> rearLeftWheel;
-        unique_ptr <Wheel> rearRightWheel;
+        unique_ptr <Motor> baseLink;
+        unique_ptr <Motor> shoulder;
         std::shared_ptr <rclcpp::Node> node_;
         rclcpp::Subscription<arm_interfaces::msg::MotorsOdom>::SharedPtr odomSubscription;
-        rclcpp::Publisher<arm_interfaces::msg::MotorsOdom>::SharedPtr velocityPublisher;
+        rclcpp::Publisher<arm_interfaces::msg::MotorsOdom>::SharedPtr positionPublisher;
 
-        void setMotorsVelocity(double frontLeft, double frontRight, double rearLeft, double rearRight);
+        void setMotorsPositions(double baseLink, double shoulder);
 
         void readOdom(const arm_interfaces::msg::MotorsOdom::SharedPtr motorsOdom);
     };

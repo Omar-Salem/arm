@@ -16,8 +16,8 @@
 #error This example is only avaliable for Arduino framework with serial transport.
 #endif
 
-rcl_subscription_t velocityCommandSubscriber;
-arm_interfaces__msg__MotorsOdom velocityCommandCallbackMessage;
+rcl_subscription_t positionCommandSubscriber;
+arm_interfaces__msg__MotorsOdom positionCommandCallbackMessage;
 rclc_executor_t subscriberExecutor;
 
 rcl_publisher_t odomStatePublisher;
@@ -29,32 +29,14 @@ rcl_node_t node;
 rcl_timer_t publisherTimer;
 const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
 
-const int front_left_1 = 15;
-const int front_left_2 = 2;
-//const int front_left_3 = 0;
-//const int front_left_4 = 4;
+const int baseLink_step = 18;
+const int baseLink_dir = 19;
 
-const int rear_left_1 = 19;
-const int rear_left_2 = 18;
-//const int rear_left_3 = 5;
-//const int rear_left_4 = 17;
+const int shoulder_step = 4;
+const int shoulder_dir = 16;
 
-
-const int front_right_1 = 13;
-const int front_right_2 = 12;
-//const int front_right_3 = 14;
-//const int front_right_4 = 27;
-
-const int rear_right_1 = 26;
-const int rear_right_2 = 25;
-//const int rear_right_3 = 33;
-//const int rear_right_4 = 32;
-
-TwoPinStepperMotor front_left(front_left_1, front_left_2, true);
-TwoPinStepperMotor rear_left(rear_left_1, rear_left_2, true);
-
-TwoPinStepperMotor front_right(front_right_1, front_right_2, false);
-TwoPinStepperMotor rear_right(rear_right_1, rear_right_2, false);
+TwoPinStepperMotor baseLink(baseLink_step,baseLink_dir);
+TwoPinStepperMotor shoulder(shoulder_step, shoulder_dir);
 
 // https://randomnerdtutorials.com/esp32-dual-core-arduino-ide/
 TaskHandle_t moveMotorsTask;
@@ -70,13 +52,10 @@ TaskHandle_t moveMotorsTask;
 //     }
 // }
 
-void velocityCommandCallback(const void *msgin) {
+void positionCommandCallback(const void *msgin) {
     const arm_interfaces__msg__MotorsOdom *command = (const arm_interfaces__msg__MotorsOdom *) msgin;
-    front_left.setVelocity(command->front_left.velocity);
-    front_right.setVelocity(command->front_right.velocity);
-
-    rear_left.setVelocity(command->rear_left.velocity);
-    rear_right.setVelocity(command->rear_right.velocity);
+    baseLink.setPosition(command->base_link.position);
+    shoulder.setPosition(command->shoulder.position);
 }
 
 void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time) {
@@ -84,18 +63,9 @@ void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time) {
     if (timer != NULL) {
         arm_interfaces__msg__MotorsOdom msg;
 
-        msg.front_left.position = front_left.getPosition();
-//        msg.front_left.velocity = front_left.getAngularVelocity();
-
-        msg.rear_left.position = rear_left.getPosition();
-//        msg.rear_left.velocity = rear_left.getAngularVelocity();
-
-        msg.front_right.position = front_right.getPosition();
-//        msg.front_right.velocity = front_right.getAngularVelocity();
-
-        msg.rear_right.position = rear_right.getPosition();
-//        msg.rear_right.velocity = rear_right.getAngularVelocity();
-
+        msg.base_link.position = baseLink.getPosition();
+        msg.shoulder.position = shoulder.getPosition();
+        
         RCSOFTCHECK(rcl_publish(&odomStatePublisher, &msg, NULL));
     }
 }
@@ -130,7 +100,7 @@ void createCommandSubscriber() {
                                                                                     MotorsOdom);
 
     RCSOFTCHECK(rclc_subscription_init_default(
-            &velocityCommandSubscriber,
+            &positionCommandSubscriber,
             &node,
             type_support,
             "arm/motors_cmd"));
@@ -139,9 +109,9 @@ void createCommandSubscriber() {
     RCSOFTCHECK(rclc_executor_init(&subscriberExecutor, &support.context, 1, &allocator));
 
     RCSOFTCHECK(rclc_executor_add_subscription(&subscriberExecutor,
-                                               &velocityCommandSubscriber,
-                                               &velocityCommandCallbackMessage,
-                                               &velocityCommandCallback,
+                                               &positionCommandSubscriber,
+                                               &positionCommandCallbackMessage,
+                                               &positionCommandCallback,
                                                ON_NEW_DATA));
 }
 
@@ -177,9 +147,7 @@ void loop() {
 
 void moveMotors(void *pvParameters) {
     for (;;) {
-        front_left.move();
-        front_right.move();
-        rear_left.move();
-        rear_right.move();
+        baseLink.move();
+        shoulder.move();
     }
 }

@@ -27,7 +27,7 @@ namespace arm_firmware {
                 [this](const arm_interfaces::msg::MotorsOdom::SharedPtr motorsOdom) {
                     this->readOdom(motorsOdom);
                 });
-        velocityPublisher = node_->create_publisher<arm_interfaces::msg::MotorsOdom>("arm/motors_cmd",
+        positionPublisher = node_->create_publisher<arm_interfaces::msg::MotorsOdom>("arm/motors_cmd",
                                                                                      10);
     }
 
@@ -38,10 +38,8 @@ namespace arm_firmware {
         if (SystemInterface::on_init(info) != CallbackReturn::SUCCESS) {
             return CallbackReturn::ERROR;
         }
-        frontLeftWheel = make_unique<Wheel>("front_left_wheel_joint");
-        frontRightWheel = make_unique<Wheel>("front_right_wheel_joint");
-        rearLeftWheel = make_unique<Wheel>("rear_left_wheel_joint");
-        rearRightWheel = make_unique<Wheel>("rear_right_wheel_joint");
+        baseLink = make_unique<Motor>("base_joint");
+        shoulder = make_unique<Motor>("shoulder_joint");
         return CallbackReturn::SUCCESS;
     }
 
@@ -55,33 +53,11 @@ namespace arm_firmware {
         RCLCPP_INFO(get_logger("ArmHardware"), "export_state_interfaces ...please wait...");
         vector <StateInterface> state_interfaces;
 
-//        frontLeftWheel
         state_interfaces.emplace_back(
-                frontLeftWheel->name, HW_IF_POSITION, &frontLeftWheel->position_state);
+                baseLink->name, HW_IF_POSITION, &baseLink->position_state);
 
-//        state_interfaces.emplace_back(
-//                frontLeftWheel->name, HW_IF_VELOCITY, &frontLeftWheel->velocity_state);
-
-//        frontRightWheel
         state_interfaces.emplace_back(
-                frontRightWheel->name, HW_IF_POSITION, &frontRightWheel->position_state);
-
-//        state_interfaces.emplace_back(
-//                frontRightWheel->name, HW_IF_VELOCITY, &frontRightWheel->velocity_state);
-
-//        rearLeftWheel
-        state_interfaces.emplace_back(
-                rearLeftWheel->name, HW_IF_POSITION, &rearLeftWheel->position_state);
-
-//        state_interfaces.emplace_back(
-//                rearLeftWheel->name, HW_IF_VELOCITY, &rearLeftWheel->velocity_state);
-
-//        rearRightWheel
-        state_interfaces.emplace_back(
-                rearRightWheel->name, HW_IF_POSITION, &rearRightWheel->position_state);
-
-//        state_interfaces.emplace_back(
-//                rearRightWheel->name, HW_IF_VELOCITY, &rearRightWheel->velocity_state);
+                shoulder->name, HW_IF_POSITION, &shoulder->position_state);
 
         return state_interfaces;
     }
@@ -90,13 +66,9 @@ namespace arm_firmware {
         RCLCPP_INFO(get_logger("ArmHardware"), "export_command_interfaces ...please wait...");
         vector <CommandInterface> command_interfaces;
         command_interfaces.emplace_back(
-                frontLeftWheel->name, HW_IF_VELOCITY, &frontLeftWheel->velocity_command);
+                baseLink->name, HW_IF_POSITION, &baseLink->position_command);
         command_interfaces.emplace_back(
-                frontRightWheel->name, HW_IF_VELOCITY, &frontRightWheel->velocity_command);
-        command_interfaces.emplace_back(
-                rearLeftWheel->name, HW_IF_VELOCITY, &rearLeftWheel->velocity_command);
-        command_interfaces.emplace_back(
-                rearRightWheel->name, HW_IF_VELOCITY, &rearRightWheel->velocity_command);
+                shoulder->name, HW_IF_POSITION, &shoulder->position_command);
 
         return command_interfaces;
     }
@@ -110,7 +82,6 @@ namespace arm_firmware {
     CallbackReturn ArmHardware::on_deactivate(
             const State & /*previous_state*/) {
         RCLCPP_INFO(get_logger("ArmHardware"), "on_deactivate ...please wait...");
-        setMotorsVelocity(0, 0, 0, 0);
         return CallbackReturn::SUCCESS;
     }
 
@@ -123,42 +94,24 @@ namespace arm_firmware {
     return_type ArmHardware::write(
             const Time & /*time*/, const Duration & /*period*/) {
 
-//        RCLCPP_INFO(get_logger("ArmHardware"), "frontLeftWheel->velocity_command %f",frontLeftWheel->velocity_command);
-//        RCLCPP_INFO(get_logger("ArmHardware"), "frontRightWheel->velocity_command %f",frontRightWheel->velocity_command);
-//        RCLCPP_INFO(get_logger("ArmHardware"), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
-//        RCLCPP_INFO(get_logger("ArmHardware"), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
+//        RCLCPP_INFO(get_logger("ArmHardware"), "baseLink->position_command %f",baseLink->position_command);
 
-        setMotorsVelocity(frontLeftWheel->velocity_command,
-                          frontRightWheel->velocity_command,
-                          rearLeftWheel->velocity_command,
-                          rearRightWheel->velocity_command);
+        setMotorsVelocity(baseLink->position_command,
+                          shoulder->position_command);
         return return_type::OK;
     }
 
-    void ArmHardware::setMotorsVelocity(double frontLeft,
-                                               double frontRight,
-                                               double rearLeft,
-                                               double rearRight) {
+    void ArmHardware::setMotorsPositions(double baseLink,
+                                         double shoulder) {
         auto cmd_msg = std::make_shared<arm_interfaces::msg::MotorsOdom>();
-        cmd_msg->front_left.velocity = frontLeft;
-        cmd_msg->front_right.velocity = frontRight;
-        cmd_msg->rear_left.velocity = rearLeft;
-        cmd_msg->rear_right.velocity = rearRight;
-        velocityPublisher->publish(*cmd_msg);
+        cmd_msg->baseLink.position = baseLink;
+        cmd_msg->shoulder.position = shoulder;
+        positionPublisher->publish(*cmd_msg);
     }
 
     void ArmHardware::readOdom(const arm_interfaces::msg::MotorsOdom::SharedPtr motorsOdom) {
-        frontLeftWheel->position_state = motorsOdom->front_left.position;
-//        frontLeftWheel->velocity_state = motorsOdom->front_left.velocity;
-
-        frontRightWheel->position_state = motorsOdom->front_right.position;
-//        frontRightWheel->velocity_state = motorsOdom->front_right.velocity;
-
-        rearLeftWheel->position_state = motorsOdom->rear_left.position;
-//        rearLeftWheel->velocity_state = motorsOdom->rear_left.velocity;
-
-        rearRightWheel->position_state = motorsOdom->rear_right.position;
-//        rearRightWheel->velocity_state = motorsOdom->rear_right.velocity;
+        baseLink->position_state = motorsOdom->baseLink.position;
+        shoulder->position_state = motorsOdom->shoulder.position;
     }
 
 }  // namespace arm_firmware

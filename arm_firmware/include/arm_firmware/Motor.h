@@ -5,11 +5,11 @@
 
 #include <string>
 
-class Wheel {
+class Motor {
 public:
     double position_state;
-    double velocity_command;
+    double position_command;
     std::string name;
 
-    explicit Wheel(const std::string &name) : name(name) {}
+    explicit Motor(const std::string &name) : name(name) {}
 };

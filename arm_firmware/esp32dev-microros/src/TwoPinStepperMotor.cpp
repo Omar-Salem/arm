@@ -5,27 +5,19 @@
 #include "TwoPinStepperMotor.h"
 
 TwoPinStepperMotor::TwoPinStepperMotor(byte stepPin,
-                                       byte dirPin,
-                                       bool isLeft) {
-    directionMultiplier_ = isLeft ? 1 : -1;
+                                       byte dirPin) {
     commandLastPing_ = millis();
-    accelStepper = new AccelStepper(1, stepPin, dirPin);
-
-    accelStepper->setMaxSpeed(MAX_STEPS_PER_SECOND);
+    accelStepper = new AccelStepper(1, stepPin);
 }
 
 
 double TwoPinStepperMotor::getPosition() const {
-    int currentPosition = accelStepper->currentPosition();
-    currentPosition *= ANGLES_PER_STEP;
-    return currentPosition * CONVERT_DEG_TO_RAD * directionMultiplier_;
+    return accelStepper->currentPosition();
 }
 
-void TwoPinStepperMotor::setVelocity(double angularVelocity) {
+void TwoPinStepperMotor::setPosition(double position) {
     commandLastPing_ = millis();
-    const double angularVelocityDegrees = angularVelocity * CONVERT_RAD_TO_DEG;
-    const double stepsPerSecond = angularVelocityDegrees / ANGLES_PER_STEP;
-    accelStepper->setSpeed(stepsPerSecond * directionMultiplier_);
+    accelStepper->setPosition(position);
 }
 
 void TwoPinStepperMotor::move() {
