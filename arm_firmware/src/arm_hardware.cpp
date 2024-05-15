@@ -96,7 +96,7 @@ namespace arm_firmware {
 
 //        RCLCPP_INFO(get_logger("ArmHardware"), "baseLink->position_command %f",baseLink->position_command);
 
-        setMotorsVelocity(baseLink->position_command,
+        setMotorsPositions(baseLink->position_command,
                           shoulder->position_command);
         return return_type::OK;
     }
@@ -104,13 +104,13 @@ namespace arm_firmware {
     void ArmHardware::setMotorsPositions(double baseLink,
                                          double shoulder) {
         auto cmd_msg = std::make_shared<arm_interfaces::msg::MotorsOdom>();
-        cmd_msg->baseLink.position = baseLink;
+        cmd_msg->base_link.position = baseLink;
         cmd_msg->shoulder.position = shoulder;
         positionPublisher->publish(*cmd_msg);
     }
 
     void ArmHardware::readOdom(const arm_interfaces::msg::MotorsOdom::SharedPtr motorsOdom) {
-        baseLink->position_state = motorsOdom->baseLink.position;
+        baseLink->position_state = motorsOdom->base_link.position;
         shoulder->position_state = motorsOdom->shoulder.position;
     }
 
