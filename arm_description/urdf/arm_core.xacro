@@ -82,7 +82,7 @@
 
     <link name="world"/>
 
-    <joint name="world" type="fixed">
+    <joint name="virtual_joint" type="fixed">
         <parent link="world"/>
         <child link="base_link"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
