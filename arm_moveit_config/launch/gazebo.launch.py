@@ -10,7 +10,7 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    arm_moveit_package = get_package_share_directory('arm_moveit')
+    arm_moveit_package = get_package_share_directory('arm_moveit_config')
 
     return LaunchDescription(
         [
@@ -29,11 +29,6 @@ def generate_launch_description():
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     arm_moveit_package, 'launch', 'moveit_rviz.launch.py'
-                )])
-            ),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(
-                    arm_moveit_package, 'launch', 'spawn_controllers.launch.py'
                 )])
             )
         ]
