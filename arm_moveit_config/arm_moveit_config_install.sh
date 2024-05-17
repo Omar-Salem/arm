@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ros2 launch moveit_setup_assistant setup_assistant.launch.py
+
 cd arm_ws
 rm -rf build log install
 colcon build

@@ -89,19 +89,19 @@
 
     <link name="biceptricep_forearm_link_1">
         <inertial>
-            <origin xyz="-0.06680915249598357 -0.009999999999999926 -8.604228440844963e-16" rpy="0 0 0"/>
+            <origin xyz="-0.06680915249598346 0.010000000000000002 6.661338147750939e-16" rpy="0 0 0"/>
             <mass value="2.4998312500297173"/>
-            <inertia ixx="0.001444" iyy="0.009664" izz="0.008376" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+            <inertia ixx="0.001444" iyy="0.009664" izz="0.008376" ixy="0.0" iyz="-0.0" ixz="0.0"/>
         </inertial>
         <visual>
-            <origin xyz="0.2 0.0775 -0.1625" rpy="0 0 0"/>
+            <origin xyz="0.2 -0.0375 -0.1625" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find arm_description)/meshes/biceptricep_forearm_link_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="0.2 0.0775 -0.1625" rpy="0 0 0"/>
+            <origin xyz="0.2 -0.0375 -0.1625" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find arm_description)/meshes/biceptricep_forearm_link_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
@@ -110,19 +110,19 @@
 
     <link name="forearm_1">
         <inertial>
-            <origin xyz="0.0 -0.057499999999999926 -1.942890293094024e-16" rpy="0 0 0"/>
+            <origin xyz="0.0 0.0575 0.0" rpy="0 0 0"/>
             <mass value="5.122656437250909"/>
             <inertia ixx="0.007959" iyy="0.004626" izz="0.007959" ixy="-0.0" iyz="0.0" ixz="0.0"/>
         </inertial>
         <visual>
-            <origin xyz="0.4 0.0775 -0.1625" rpy="0 0 0"/>
+            <origin xyz="0.4 -0.0375 -0.1625" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find arm_description)/meshes/forearm_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="0.4 0.0775 -0.1625" rpy="0 0 0"/>
+            <origin xyz="0.4 -0.0375 -0.1625" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find arm_description)/meshes/forearm_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
@@ -131,19 +131,19 @@
 
     <link name="wrist_1">
         <inertial>
-            <origin xyz="-1.6653345369377348e-16 -0.04673529188000056 -2.8160945797495174e-11" rpy="0 0 0"/>
+            <origin xyz="-1.1102230246251565e-16 0.04673529188000053 2.816077926404148e-11" rpy="0 0 0"/>
             <mass value="5.211945183934523"/>
-            <inertia ixx="0.008209" iyy="0.008038" izz="0.004805" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+            <inertia ixx="0.008209" iyy="0.008038" izz="0.004805" ixy="0.0" iyz="0.0" ixz="0.0"/>
         </inertial>
         <visual>
-            <origin xyz="0.4 0.1925 -0.1625" rpy="0 0 0"/>
+            <origin xyz="0.4 -0.1525 -0.1625" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find arm_description)/meshes/wrist_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="0.4 0.1925 -0.1625" rpy="0 0 0"/>
+            <origin xyz="0.4 -0.1525 -0.1625" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find arm_description)/meshes/wrist_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
@@ -158,12 +158,12 @@
         <limit upper="6.265732" lower="0.0" effort="100" velocity="100"/>
     </joint>
 
-    <joint name="shoulder_joint" type="revolute">
+    <joint name="shoulder_joint" type="continuous">
         <origin xyz="0.0 -0.0575 0.0475" rpy="0 0 0"/>
         <parent link="shoulder_1"/>
         <child link="should_biceptricep_link_1"/>
         <axis xyz="0.0 -1.0 -0.0"/>
-        <limit upper="6.283185" lower="3.141593" effort="100" velocity="100"/>
+<!--        <limit upper="6.283185" lower="3.141593" effort="100" velocity="100"/>-->
     </joint>
 
     <joint name="Rigid 7" type="fixed">
@@ -172,12 +172,12 @@
         <child link="biceptricep_1"/>
     </joint>
 
-    <joint name="biceptricep_joint" type="revolute">
-        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <joint name="biceptricep_joint" type="continuous">
+        <origin xyz="0.0 0.115 0.0" rpy="0 0 0"/>
         <parent link="biceptricep_1"/>
         <child link="biceptricep_forearm_link_1"/>
-        <axis xyz="0.0 -1.0 -0.0"/>
-        <limit upper="6.265732" lower="0.0" effort="100" velocity="100"/>
+        <axis xyz="0.0 1.0 0.0"/>
+<!--        <limit upper="6.265732" lower="0.0" effort="100" velocity="100"/>-->
     </joint>
 
     <joint name="Rigid 8" type="fixed">
@@ -187,10 +187,10 @@
     </joint>
 
     <joint name="forearm_joint" type="continuous">
-        <origin xyz="0.0 -0.115 0.0" rpy="0 0 0"/>
+        <origin xyz="0.0 0.115 0.0" rpy="0 0 0"/>
         <parent link="forearm_1"/>
         <child link="wrist_1"/>
-        <axis xyz="-0.0 1.0 -0.0"/>
+        <axis xyz="-0.0 -1.0 0.0"/>
     </joint>
 
     <link name="world"/>
