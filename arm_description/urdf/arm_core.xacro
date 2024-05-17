@@ -158,12 +158,12 @@
         <limit upper="6.265732" lower="0.0" effort="100" velocity="100"/>
     </joint>
 
-    <joint name="shoulder_joint" type="continuous">
+    <joint name="shoulder_joint" type="revolute">
         <origin xyz="0.0 -0.0575 0.0475" rpy="0 0 0"/>
         <parent link="shoulder_1"/>
         <child link="should_biceptricep_link_1"/>
         <axis xyz="0.0 -1.0 -0.0"/>
-<!--        <limit upper="6.283185" lower="3.141593" effort="100" velocity="100"/>-->
+        <limit upper="6.265732" lower="0.0" effort="100" velocity="100"/>
     </joint>
 
     <joint name="Rigid 7" type="fixed">
