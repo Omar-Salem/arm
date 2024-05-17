@@ -38,7 +38,7 @@ namespace arm_firmware {
         if (SystemInterface::on_init(info) != CallbackReturn::SUCCESS) {
             return CallbackReturn::ERROR;
         }
-        baseLink = make_unique<Motor>("base_joint");
+        baseLink = make_unique<Motor>("waist_joint");
         shoulder = make_unique<Motor>("shoulder_joint");
         return CallbackReturn::SUCCESS;
     }
