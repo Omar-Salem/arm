@@ -5,6 +5,10 @@ ros2 launch moveit_setup_assistant setup_assistant.launch.py
 cd arm_ws
 rm -rf build log install
 colcon build
+killall -9 gazebo & killall -9 gzserver & killall -9 gzclient
+killall -9 rviz
+source install/setup.bash
+ros2 launch arm_moveit_config gazebo.launch.py
 
 
 cd arm_ws
