@@ -2,6 +2,9 @@
 <robot name="arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:include filename="$(find arm_description)/urdf/materials.xacro"/>
+    <xacro:property name="PI" value="3.14159265359"/>
+    <xacro:property name="effort" value="30"/>
+    <xacro:property name="velocity" value="10"/>
 
     <link name="base_link">
         <inertial>
@@ -54,14 +57,16 @@
         <visual>
             <origin xyz="-0.0 0.0575 -0.1625" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/should_biceptricep_link_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/should_biceptricep_link_1.stl"
+                      scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
             <origin xyz="-0.0 0.0575 -0.1625" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/should_biceptricep_link_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/should_biceptricep_link_1.stl"
+                      scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
@@ -96,14 +101,16 @@
         <visual>
             <origin xyz="0.2 -0.0375 -0.1625" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/biceptricep_forearm_link_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/biceptricep_forearm_link_1.stl"
+                      scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
             <origin xyz="0.2 -0.0375 -0.1625" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/biceptricep_forearm_link_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/biceptricep_forearm_link_1.stl"
+                      scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
@@ -155,7 +162,7 @@
         <parent link="base_link"/>
         <child link="shoulder_1"/>
         <axis xyz="0.0 0.0 1.0"/>
-        <limit upper="6.265732" lower="0.0" effort="100" velocity="100"/>
+        <limit lower="-${PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
     <joint name="shoulder_joint" type="revolute">
@@ -163,7 +170,7 @@
         <parent link="shoulder_1"/>
         <child link="should_biceptricep_link_1"/>
         <axis xyz="0.0 -1.0 -0.0"/>
-        <limit upper="6.265732" lower="0.0" effort="100" velocity="100"/>
+        <limit lower="-${PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
     <joint name="Rigid 7" type="fixed">
@@ -172,12 +179,12 @@
         <child link="biceptricep_1"/>
     </joint>
 
-    <joint name="biceptricep_joint" type="continuous">
+    <joint name="biceptricep_joint" type="revolute">
         <origin xyz="0.0 0.115 0.0" rpy="0 0 0"/>
         <parent link="biceptricep_1"/>
         <child link="biceptricep_forearm_link_1"/>
         <axis xyz="0.0 1.0 0.0"/>
-<!--        <limit upper="6.265732" lower="0.0" effort="100" velocity="100"/>-->
+        <limit lower="-${PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
     <joint name="Rigid 8" type="fixed">
