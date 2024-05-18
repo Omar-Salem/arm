@@ -170,7 +170,7 @@
         <parent link="shoulder_1"/>
         <child link="should_biceptricep_link_1"/>
         <axis xyz="0.0 -1.0 -0.0"/>
-        <limit lower="-${PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
+        <limit lower="-${PI}" upper="0" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
     <joint name="Rigid 7" type="fixed">
@@ -184,7 +184,7 @@
         <parent link="biceptricep_1"/>
         <child link="biceptricep_forearm_link_1"/>
         <axis xyz="0.0 1.0 0.0"/>
-        <limit lower="-${PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
+        <limit lower="0" upper="${PI}" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
     <joint name="Rigid 8" type="fixed">
@@ -198,7 +198,7 @@
         <parent link="forearm_1"/>
         <child link="wrist_1"/>
         <axis xyz="-0.0 -1.0 0.0"/>
-        <limit lower="-${PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
+        <limit lower="-${PI}" upper="${PI}" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
     <link name="world"/>
