@@ -63,15 +63,12 @@ def generate_launch_description():
         ],
     )
 
+    control_node = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(arm_control_package_share_dir, 'launch', 'gazebo.launch.py')]),
+        launch_arguments={'use_rviz': 'False'}.items())
     return LaunchDescription(
         [
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(
-                    arm_control_package_share_dir, 'launch', 'gazebo.launch.py'
-                )]), launch_arguments={
-                    'use_rviz': 'False'
-                }.items()
-            ),
+            control_node,
             move_group_node,
             rviz_node
         ]

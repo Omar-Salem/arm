@@ -63,15 +63,12 @@ def generate_launch_description():
         ],
     )
 
+    control_node = IncludeLaunchDescription(PythonLaunchDescriptionSource(
+        [os.path.join(get_package_share_directory('arm_control'), 'launch', 'control.launch.py')]),
+                                           launch_arguments={'use_rviz': 'False'}.items())
     return LaunchDescription(
         [
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(
-                    get_package_share_directory('arm_control'), 'launch', 'control.launch.py'
-                )]), launch_arguments={
-                    'use_rviz': 'False'
-                }.items()
-            ),
+            control_node,
             move_group_node,
             rviz_node
         ]
