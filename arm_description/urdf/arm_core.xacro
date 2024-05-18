@@ -162,7 +162,7 @@
         <parent link="base_link"/>
         <child link="shoulder_1"/>
         <axis xyz="0.0 0.0 1.0"/>
-        <limit lower="-${PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
+        <limit lower="-${PI}" upper="${PI}" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
     <joint name="shoulder_joint" type="revolute">
@@ -184,7 +184,7 @@
         <parent link="biceptricep_1"/>
         <child link="biceptricep_forearm_link_1"/>
         <axis xyz="0.0 1.0 0.0"/>
-        <limit lower="0" upper="${PI}" effort="${effort}" velocity="${velocity}"/>
+        <limit lower="-${PI}" upper="${PI}" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
     <joint name="Rigid 8" type="fixed">
