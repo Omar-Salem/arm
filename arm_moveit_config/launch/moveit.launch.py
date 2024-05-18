@@ -24,10 +24,9 @@ import os
 
 def generate_launch_description():
 
-    arm_control_package_share_dir = get_package_share_directory('arm_control')
     moveit_config = (
         MoveItConfigsBuilder("arm", package_name="arm_moveit_config")
-        .robot_description(os.path.join(arm_control_package_share_dir, 'urdf', 'arm.xacro'))
+        .robot_description(os.path.join(get_package_share_directory('arm_moveit_config'), 'urdf', 'arm.xacro'))
         .robot_description_semantic(file_path='config/arm.srdf')
         .trajectory_execution(file_path='config/moveit_controllers.yaml')
         .to_moveit_configs()
@@ -39,7 +38,7 @@ def generate_launch_description():
         output="screen",
         parameters=[
             moveit_config.to_dict(),
-            {'use_sim_time': True},
+            {'use_sim_time': False},
             {'publish_robot_description_semantic': True}
         ],
         arguments=["--ros-args", "--log-level", "info"],
@@ -64,7 +63,7 @@ def generate_launch_description():
         [
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
-                    arm_control_package_share_dir, 'launch', 'gazebo.launch.py'
+                    get_package_share_directory('arm_control'), 'launch', 'control.launch.py'
                 )]), launch_arguments={
                     'use_rviz': 'False'
                 }.items()
