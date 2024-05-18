@@ -29,7 +29,10 @@ def generate_launch_description():
         MoveItConfigsBuilder("arm", package_name="arm_moveit_config")
         .robot_description(os.path.join(arm_control_package_share_dir, 'urdf', 'arm.xacro'))
         .robot_description_semantic(file_path='config/arm.srdf')
+        .joint_limits(file_path='config/joint_limits.yaml')
+        .robot_description_kinematics(file_path='config/kinematics.yaml')
         .trajectory_execution(file_path='config/moveit_controllers.yaml')
+        .pilz_cartesian_limits(file_path='config/pilz_cartesian_limits.yaml')
         .to_moveit_configs()
     )
 

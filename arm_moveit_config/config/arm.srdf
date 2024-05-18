@@ -23,8 +23,12 @@
         <joint name="waist_joint" value="0"/>
     </group_state>
 
+    <group name="wrist_1"> <!--added this to fix-->
+        <link name="wrist_1" />
+    </group>
+
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="tool" parent_link="wrist_1" group="arm"/>
+    <end_effector name="wrist_1" parent_link="wrist_1" group="arm"/>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
 <!--    <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="base_link"/>-->
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
