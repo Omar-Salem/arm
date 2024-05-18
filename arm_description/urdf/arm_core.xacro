@@ -193,11 +193,12 @@
         <child link="forearm_1"/>
     </joint>
 
-    <joint name="forearm_joint" type="continuous">
+    <joint name="forearm_joint" type="revolute">
         <origin xyz="0.0 0.115 0.0" rpy="0 0 0"/>
         <parent link="forearm_1"/>
         <child link="wrist_1"/>
         <axis xyz="-0.0 -1.0 0.0"/>
+        <limit lower="-${PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
     <link name="world"/>
