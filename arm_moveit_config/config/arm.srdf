@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
 <robot name="arm">
     <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
     <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
@@ -7,47 +10,84 @@
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
     <group name="arm">
-        <joint name="virtual_joint"/>
-        <joint name="waist_joint"/>
-        <joint name="shoulder_joint"/>
-        <joint name="Rigid 7"/>
-        <joint name="biceptricep_joint"/>
-        <joint name="Rigid 8"/>
-        <joint name="forearm_joint"/>
+        <chain base_link="base_link" tip_link="B_link_3_1"/>
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <group_state name="ready" group="arm">
-        <joint name="forearm_joint" value="0.0"/>
-        <joint name="biceptricep_joint" value="0.0"/>
-        <joint name="shoulder_joint" value="-1.5708"/>
-        <joint name="waist_joint" value="0.0"/>
+        <joint name="biceptricep_joint" value="0.0521"/>
+        <joint name="forearm_joint" value="1.5587"/>
+        <joint name="last_joint" value="0.8938"/>
+        <joint name="shoulder_joint" value="-0.4599"/>
+        <joint name="waist_joint" value="0"/>
+        <joint name="wrist_joint" value="0.3298"/>
     </group_state>
-
-    <group name="wrist_1"> <!--added this to fix-->
-        <link name="wrist_1" />
-    </group>
-
-    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="wrist_1" parent_link="wrist_1" group="arm"/>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
-<!--    <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="base_link"/>-->
+    <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="base_link"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
-    <disable_collisions link1="base_link" link2="biceptricep_1" reason="Never"/>
-    <disable_collisions link1="base_link" link2="biceptricep_forearm_link_1" reason="Never"/>
-    <disable_collisions link1="base_link" link2="should_biceptricep_link_1" reason="Never"/>
-    <disable_collisions link1="base_link" link2="shoulder_1" reason="Adjacent"/>
-    <disable_collisions link1="base_link" link2="wrist_1" reason="Never"/>
-    <disable_collisions link1="biceptricep_1" link2="biceptricep_forearm_link_1" reason="Adjacent"/>
-    <disable_collisions link1="biceptricep_1" link2="forearm_1" reason="Never"/>
-    <disable_collisions link1="biceptricep_1" link2="should_biceptricep_link_1" reason="Adjacent"/>
-    <disable_collisions link1="biceptricep_1" link2="shoulder_1" reason="Never"/>
-    <disable_collisions link1="biceptricep_1" link2="wrist_1" reason="Never"/>
-    <disable_collisions link1="biceptricep_forearm_link_1" link2="forearm_1" reason="Adjacent"/>
-    <disable_collisions link1="biceptricep_forearm_link_1" link2="should_biceptricep_link_1" reason="Never"/>
-    <disable_collisions link1="biceptricep_forearm_link_1" link2="wrist_1" reason="Never"/>
-    <disable_collisions link1="forearm_1" link2="should_biceptricep_link_1" reason="Never"/>
-    <disable_collisions link1="forearm_1" link2="wrist_1" reason="Adjacent"/>
-    <disable_collisions link1="should_biceptricep_link_1" link2="shoulder_1" reason="Adjacent"/>
-    <disable_collisions link1="should_biceptricep_link_1" link2="wrist_1" reason="Never"/>
-    <disable_collisions link1="shoulder_1" link2="wrist_1" reason="Never"/>
+    <disable_collisions link1="A_link_1_1" link2="A_link_2_1" reason="Never"/>
+    <disable_collisions link1="A_link_1_1" link2="A_link_v3_1" reason="Never"/>
+    <disable_collisions link1="A_link_1_1" link2="B_link_1_1" reason="Never"/>
+    <disable_collisions link1="A_link_1_1" link2="B_link_2_1" reason="Never"/>
+    <disable_collisions link1="A_link_1_1" link2="B_link_3_1" reason="Never"/>
+    <disable_collisions link1="A_link_1_1" link2="actuator_mini_1_1" reason="Adjacent"/>
+    <disable_collisions link1="A_link_1_1" link2="actuator_mini_2_1" reason="Never"/>
+    <disable_collisions link1="A_link_1_1" link2="actuator_mini_3_1" reason="Never"/>
+    <disable_collisions link1="A_link_1_1" link2="actuator_mini_4_1" reason="Never"/>
+    <disable_collisions link1="A_link_1_1" link2="actuator_mini_v2_1" reason="Never"/>
+    <disable_collisions link1="A_link_1_1" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="A_link_2_1" link2="A_link_v3_1" reason="Never"/>
+    <disable_collisions link1="A_link_2_1" link2="B_link_1_1" reason="Never"/>
+    <disable_collisions link1="A_link_2_1" link2="B_link_2_1" reason="Never"/>
+    <disable_collisions link1="A_link_2_1" link2="B_link_3_1" reason="Never"/>
+    <disable_collisions link1="A_link_2_1" link2="actuator_mini_1_1" reason="Never"/>
+    <disable_collisions link1="A_link_2_1" link2="actuator_mini_2_1" reason="Adjacent"/>
+    <disable_collisions link1="A_link_2_1" link2="actuator_mini_3_1" reason="Adjacent"/>
+    <disable_collisions link1="A_link_2_1" link2="actuator_mini_4_1" reason="Never"/>
+    <disable_collisions link1="A_link_2_1" link2="actuator_mini_v2_1" reason="Never"/>
+    <disable_collisions link1="A_link_2_1" link2="base_link" reason="Never"/>
+    <disable_collisions link1="A_link_v3_1" link2="B_link_1_1" reason="Never"/>
+    <disable_collisions link1="A_link_v3_1" link2="B_link_2_1" reason="Never"/>
+    <disable_collisions link1="A_link_v3_1" link2="B_link_3_1" reason="Never"/>
+    <disable_collisions link1="A_link_v3_1" link2="actuator_mini_1_1" reason="Never"/>
+    <disable_collisions link1="A_link_v3_1" link2="actuator_mini_2_1" reason="Never"/>
+    <disable_collisions link1="A_link_v3_1" link2="actuator_mini_3_1" reason="Never"/>
+    <disable_collisions link1="A_link_v3_1" link2="actuator_mini_4_1" reason="Adjacent"/>
+    <disable_collisions link1="A_link_v3_1" link2="actuator_mini_v2_1" reason="Adjacent"/>
+    <disable_collisions link1="A_link_v3_1" link2="base_link" reason="Never"/>
+    <disable_collisions link1="B_link_1_1" link2="B_link_2_1" reason="Never"/>
+    <disable_collisions link1="B_link_1_1" link2="B_link_3_1" reason="Never"/>
+    <disable_collisions link1="B_link_1_1" link2="actuator_mini_1_1" reason="Adjacent"/>
+    <disable_collisions link1="B_link_1_1" link2="actuator_mini_2_1" reason="Adjacent"/>
+    <disable_collisions link1="B_link_1_1" link2="actuator_mini_3_1" reason="Never"/>
+    <disable_collisions link1="B_link_1_1" link2="actuator_mini_4_1" reason="Never"/>
+    <disable_collisions link1="B_link_1_1" link2="actuator_mini_v2_1" reason="Never"/>
+    <disable_collisions link1="B_link_1_1" link2="base_link" reason="Never"/>
+    <disable_collisions link1="B_link_2_1" link2="B_link_3_1" reason="Never"/>
+    <disable_collisions link1="B_link_2_1" link2="actuator_mini_1_1" reason="Never"/>
+    <disable_collisions link1="B_link_2_1" link2="actuator_mini_2_1" reason="Never"/>
+    <disable_collisions link1="B_link_2_1" link2="actuator_mini_3_1" reason="Adjacent"/>
+    <disable_collisions link1="B_link_2_1" link2="actuator_mini_4_1" reason="Adjacent"/>
+    <disable_collisions link1="B_link_2_1" link2="actuator_mini_v2_1" reason="Never"/>
+    <disable_collisions link1="B_link_2_1" link2="base_link" reason="Never"/>
+    <disable_collisions link1="B_link_3_1" link2="actuator_mini_1_1" reason="Never"/>
+    <disable_collisions link1="B_link_3_1" link2="actuator_mini_2_1" reason="Never"/>
+    <disable_collisions link1="B_link_3_1" link2="actuator_mini_3_1" reason="Never"/>
+    <disable_collisions link1="B_link_3_1" link2="actuator_mini_4_1" reason="Never"/>
+    <disable_collisions link1="B_link_3_1" link2="actuator_mini_v2_1" reason="Adjacent"/>
+    <disable_collisions link1="B_link_3_1" link2="base_link" reason="Never"/>
+    <disable_collisions link1="actuator_mini_1_1" link2="actuator_mini_2_1" reason="Never"/>
+    <disable_collisions link1="actuator_mini_1_1" link2="actuator_mini_3_1" reason="Never"/>
+    <disable_collisions link1="actuator_mini_1_1" link2="actuator_mini_4_1" reason="Never"/>
+    <disable_collisions link1="actuator_mini_1_1" link2="actuator_mini_v2_1" reason="Never"/>
+    <disable_collisions link1="actuator_mini_1_1" link2="base_link" reason="Never"/>
+    <disable_collisions link1="actuator_mini_2_1" link2="actuator_mini_3_1" reason="Never"/>
+    <disable_collisions link1="actuator_mini_2_1" link2="actuator_mini_4_1" reason="Never"/>
+    <disable_collisions link1="actuator_mini_2_1" link2="actuator_mini_v2_1" reason="Never"/>
+    <disable_collisions link1="actuator_mini_2_1" link2="base_link" reason="Never"/>
+    <disable_collisions link1="actuator_mini_3_1" link2="actuator_mini_4_1" reason="Never"/>
+    <disable_collisions link1="actuator_mini_3_1" link2="actuator_mini_v2_1" reason="Never"/>
+    <disable_collisions link1="actuator_mini_3_1" link2="base_link" reason="Never"/>
+    <disable_collisions link1="actuator_mini_4_1" link2="actuator_mini_v2_1" reason="Never"/>
+    <disable_collisions link1="actuator_mini_4_1" link2="base_link" reason="Never"/>
+    <disable_collisions link1="actuator_mini_v2_1" link2="base_link" reason="Never"/>
 </robot>
