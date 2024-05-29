@@ -16,3 +16,4 @@ moveit_simple_controller_manager:
       - biceptricep_joint
       - forearm_joint
       - wrist_joint
+      - last_joint
