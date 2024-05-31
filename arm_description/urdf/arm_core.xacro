@@ -8,9 +8,9 @@
 
     <link name="base_link">
         <inertial>
-            <origin xyz="9.074472595560118e-06 4.511803636420403e-06 0.06080491772982903" rpy="0 0 0"/>
-            <mass value="2.3664474804835818"/>
-            <inertia ixx="0.002614" iyy="0.002626" izz="0.001836" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+            <origin xyz="0.0 0.0 0.04999999999999999" rpy="0 0 0"/>
+            <mass value="4.454483858479053"/>
+            <inertia ixx="0.005724" iyy="0.005724" izz="0.004023" ixy="-0.0" iyz="0.0" ixz="0.0"/>
         </inertial>
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -29,314 +29,228 @@
 
     <link name="A_link_1_1">
         <inertial>
-            <origin xyz="6.993896858461139e-06 -0.020891050878909207 0.01653170831443343" rpy="0 0 0"/>
-            <mass value="0.5415680642734683"/>
-            <inertia ixx="0.000764" iyy="0.000439" izz="0.000814" ixy="0.0" iyz="0.000213" ixz="-0.0"/>
+            <origin xyz="6.566808042589417e-06 -0.01930388604911311 0.015587787508872478" rpy="0 0 0"/>
+            <mass value="0.6055706042510981"/>
+            <inertia ixx="0.000849" iyy="0.000499" izz="0.000953" ixy="0.0" iyz="0.00022" ixz="-0.0"/>
         </inertial>
         <visual>
-            <origin xyz="-0.0 -0.0 -0.09999" rpy="0 0 0"/>
+            <origin xyz="-0.0 -0.0 -0.1" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find arm_description)/meshes/A_link_1_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="-0.0 -0.0 -0.09999" rpy="0 0 0"/>
+            <origin xyz="-0.0 -0.0 -0.1" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find arm_description)/meshes/A_link_1_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
 
-    <link name="actuator_mini_1_1">
+    <link name="mini_1">
         <inertial>
-            <origin xyz="1.2003763611918957e-05 0.0279280052798158 -2.346780126005754e-06" rpy="0 0 0"/>
-            <mass value="1.792545854428748"/>
-            <inertia ixx="0.001351" iyy="0.001671" izz="0.001352" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+            <origin xyz="-9.611538605247235e-08 0.02749999999999887 -3.570384012052674e-07" rpy="0 0 0"/>
+            <mass value="2.4499661221634783"/>
+            <inertia ixx="0.001724" iyy="0.002213" izz="0.001724" ixy="-0.0" iyz="0.0" ixz="0.0"/>
         </inertial>
         <visual>
-            <origin xyz="-1.8e-05 0.058 -0.160811" rpy="0 0 0"/>
+            <origin xyz="-1.8e-05 0.058 -0.160821" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/actuator_mini_1_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/mini_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="-1.8e-05 0.058 -0.160811" rpy="0 0 0"/>
+            <origin xyz="-1.8e-05 0.058 -0.160821" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/actuator_mini_1_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/mini_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
 
     <link name="B_link_1_1">
         <inertial>
-            <origin xyz="-0.00011908362991250562 0.014840057092067972 0.02802838695795798" rpy="0 0 0"/>
-            <mass value="0.8096607706832739"/>
-            <inertia ixx="0.001142" iyy="0.001354" izz="0.000407" ixy="1e-06" iyz="-9.9e-05" ixz="2e-06"/>
+            <origin xyz="-0.00012611712835024848 0.014973849630638941 0.028499142987686632" rpy="0 0 0"/>
+            <mass value="0.8918688582896708"/>
+            <inertia ixx="0.001182" iyy="0.001425" izz="0.000442" ixy="1e-06" iyz="-0.000108" ixz="2e-06"/>
         </inertial>
         <visual>
-            <origin xyz="-1.8e-05 0.003 -0.160811" rpy="0 0 0"/>
+            <origin xyz="-1.8e-05 0.003 -0.160821" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find arm_description)/meshes/B_link_1_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="-1.8e-05 0.003 -0.160811" rpy="0 0 0"/>
+            <origin xyz="-1.8e-05 0.003 -0.160821" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find arm_description)/meshes/B_link_1_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
 
-    <link name="actuator_mini_2_1">
+    <link name="mini_2_1">
         <inertial>
-            <origin xyz="1.2209074028974958e-05 1.8938794354540832e-06 0.027928005279817814" rpy="0 0 0"/>
-            <mass value="1.7925458544287485"/>
-            <inertia ixx="0.001351" iyy="0.001352" izz="0.001671" ixy="0.0" iyz="0.0" ixz="0.0"/>
+            <origin xyz="1.091950321616532e-07 -9.586228959807398e-08 0.0275000000000008" rpy="0 0 0"/>
+            <mass value="2.4499661221634783"/>
+            <inertia ixx="0.001724" iyy="0.001724" izz="0.002213" ixy="-0.0" iyz="0.0" ixz="0.0"/>
         </inertial>
         <visual>
-            <origin xyz="0.000204 -0.000204 -0.25799" rpy="0 0 0"/>
+            <origin xyz="0.000204 -0.000204 -0.258" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/actuator_mini_2_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/mini_2_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="0.000204 -0.000204 -0.25799" rpy="0 0 0"/>
+            <origin xyz="0.000204 -0.000204 -0.258" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/actuator_mini_2_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/mini_2_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
 
     <link name="A_link_2_1">
         <inertial>
-            <origin xyz="7.103091889460128e-06 -0.020891146741198668 0.0165317083144344" rpy="0 0 0"/>
-            <mass value="0.5415680642734683"/>
-            <inertia ixx="0.000764" iyy="0.000439" izz="0.000814" ixy="0.0" iyz="0.000213" ixz="-0.0"/>
+            <origin xyz="6.6760030758991834e-06 -0.01930398191140269 0.015587787508873407" rpy="0 0 0"/>
+            <mass value="0.6055706042510981"/>
+            <inertia ixx="0.000849" iyy="0.000499" izz="0.000953" ixy="0.0" iyz="0.00022" ixz="-0.0"/>
         </inertial>
         <visual>
-            <origin xyz="0.000204 -0.000204 -0.31299" rpy="0 0 0"/>
+            <origin xyz="0.000204 -0.000204 -0.313" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find arm_description)/meshes/A_link_2_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="0.000204 -0.000204 -0.31299" rpy="0 0 0"/>
+            <origin xyz="0.000204 -0.000204 -0.313" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find arm_description)/meshes/A_link_2_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
 
-    <link name="actuator_mini_3_1">
+    <link name="mini_3_1">
         <inertial>
-            <origin xyz="1.2112958642917918e-05 0.02792790941752636 -2.3467801250065534e-06" rpy="0 0 0"/>
-            <mass value="1.792545854428748"/>
-            <inertia ixx="0.001351" iyy="0.001671" izz="0.001352" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+            <origin xyz="1.3079647242727772e-08 0.02749990413770926 -3.570384003448446e-07" rpy="0 0 0"/>
+            <mass value="2.4499661221634783"/>
+            <inertia ixx="0.001724" iyy="0.002213" izz="0.001724" ixy="0.0" iyz="-0.0" ixz="0.0"/>
         </inertial>
         <visual>
-            <origin xyz="0.000186 0.057796 -0.373811" rpy="0 0 0"/>
+            <origin xyz="0.000186 0.057796 -0.373821" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/actuator_mini_3_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/mini_3_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="0.000186 0.057796 -0.373811" rpy="0 0 0"/>
+            <origin xyz="0.000186 0.057796 -0.373821" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/actuator_mini_3_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/mini_3_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
 
-    <link name="B_link_2_1">
+    <link name="B_link_v3_1">
         <inertial>
-            <origin xyz="-0.00011897443488150664 0.014839961229778542 0.028028386957958895" rpy="0 0 0"/>
-            <mass value="0.8096607706832739"/>
-            <inertia ixx="0.001142" iyy="0.001354" izz="0.000407" ixy="1e-06" iyz="-9.9e-05" ixz="2e-06"/>
+            <origin xyz="0.0017094348522084773 0.013601046562641933 0.03786981102297654" rpy="0 0 0"/>
+            <mass value="1.0096188582896708"/>
+            <inertia ixx="0.0019" iyy="0.002275" izz="0.000611" ixy="2e-05" iyz="-9e-06" ixz="-0.000164"/>
         </inertial>
         <visual>
-            <origin xyz="0.000186 0.002796 -0.373811" rpy="0 0 0"/>
+            <origin xyz="0.000186 0.002796 -0.373821" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/B_link_2_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/B_link_v3_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="0.000186 0.002796 -0.373811" rpy="0 0 0"/>
+            <origin xyz="0.000186 0.002796 -0.373821" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/B_link_2_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/B_link_v3_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
 
-    <link name="actuator_mini_4_1">
+    <link name="finger_1">
         <inertial>
-            <origin xyz="1.2318269059978981e-05 1.7980171460485364e-06 0.027928005279818757" rpy="0 0 0"/>
-            <mass value="1.7925458544287487"/>
-            <inertia ixx="0.001351" iyy="0.001352" izz="0.001671" ixy="0.0" iyz="0.0" ixz="0.0"/>
+            <origin xyz="-0.002499781609934429 -1.9172457915646616e-07 0.02499999999999991" rpy="0 0 0"/>
+            <mass value="0.03924999999999999"/>
+            <inertia ixx="9e-06" iyy="8e-06" izz="1e-06" ixy="0.0" iyz="0.0" ixz="-0.0"/>
         </inertial>
         <visual>
-            <origin xyz="0.000408 -0.000408 -0.47099" rpy="0 0 0"/>
+            <origin xyz="-0.044592 -0.000408 -0.476" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/actuator_mini_4_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/finger_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="0.000408 -0.000408 -0.47099" rpy="0 0 0"/>
+            <origin xyz="-0.044592 -0.000408 -0.476" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/actuator_mini_4_1.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-        </collision>
-    </link>
-
-    <link name="A_link_v3_1">
-        <inertial>
-            <origin xyz="7.212286920459056e-06 -0.020891242603488062 0.0165317083144354" rpy="0 0 0"/>
-            <mass value="0.5415680642734683"/>
-            <inertia ixx="0.000764" iyy="0.000439" izz="0.000814" ixy="0.0" iyz="0.000213" ixz="-0.0"/>
-        </inertial>
-        <visual>
-            <origin xyz="0.000408 -0.000408 -0.52599" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/A_link_v3_1.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-            <material name="silver"/>
-        </visual>
-        <collision>
-            <origin xyz="0.000408 -0.000408 -0.52599" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/A_link_v3_1.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-        </collision>
-    </link>
-
-    <link name="actuator_mini_v2_1">
-        <inertial>
-            <origin xyz="1.2222153673901721e-05 0.02792781355523693 -2.346780123785308e-06" rpy="0 0 0"/>
-            <mass value="1.7925458544287483"/>
-            <inertia ixx="0.001351" iyy="0.001671" izz="0.001352" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
-        </inertial>
-        <visual>
-            <origin xyz="0.00039 0.057592 -0.586811" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/actuator_mini_v2_1.stl"
-                      scale="0.001 0.001 0.001"/>
-            </geometry>
-            <material name="silver"/>
-        </visual>
-        <collision>
-            <origin xyz="0.00039 0.057592 -0.586811" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/actuator_mini_v2_1.stl"
-                      scale="0.001 0.001 0.001"/>
-            </geometry>
-        </collision>
-    </link>
-
-    <link name="B_link_3_1">
-        <inertial>
-            <origin xyz="-0.0001188652398505349 0.014839865367489106 0.028028386957960394" rpy="0 0 0"/>
-            <mass value="0.8096607706832739"/>
-            <inertia ixx="0.001142" iyy="0.001354" izz="0.000407" ixy="1e-06" iyz="-9.9e-05" ixz="2e-06"/>
-        </inertial>
-        <visual>
-            <origin xyz="0.00039 0.002592 -0.586811" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/B_link_3_1.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-            <material name="silver"/>
-        </visual>
-        <collision>
-            <origin xyz="0.00039 0.002592 -0.586811" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find arm_description)/meshes/B_link_3_1.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="file://$(find arm_description)/meshes/finger_1.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
 
     <joint name="waist_joint" type="revolute">
-        <origin xyz="0.0 0.0 0.09999" rpy="0 0 0"/>
+        <origin xyz="0.0 0.0 0.1" rpy="0 0 0"/>
         <parent link="base_link"/>
         <child link="A_link_1_1"/>
         <axis xyz="0.0 0.0 1.0"/>
         <limit lower="-${PI}" upper="${PI}" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
-    <joint name="Rigid 3" type="fixed">
+    <joint name="Rigid 2" type="fixed">
         <origin xyz="1.8e-05 -0.058 0.060821" rpy="0 0 0"/>
         <parent link="A_link_1_1"/>
-        <child link="actuator_mini_1_1"/>
+        <child link="mini_1"/>
     </joint>
 
     <joint name="shoulder_joint" type="revolute">
         <origin xyz="0.0 0.055 0.0" rpy="0 0 0"/>
-        <parent link="actuator_mini_1_1"/>
+        <parent link="mini_1"/>
         <child link="B_link_1_1"/>
-        <axis xyz="0.0 1.0 -0.0"/>
-        <limit lower="-${PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
+        <axis xyz="-0.0 -1.0 0.0"/>
+        <limit lower="-1.833" upper="1.833" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
-    <joint name="Rigid 7" type="fixed">
+    <joint name="Rigid 4" type="fixed">
         <origin xyz="-0.000222 0.003204 0.097179" rpy="0 0 0"/>
         <parent link="B_link_1_1"/>
-        <child link="actuator_mini_2_1"/>
+        <child link="mini_2_1"/>
     </joint>
 
     <joint name="biceptricep_joint" type="revolute">
         <origin xyz="0.0 0.0 0.055" rpy="0 0 0"/>
-        <parent link="actuator_mini_2_1"/>
+        <parent link="mini_2_1"/>
         <child link="A_link_2_1"/>
-        <axis xyz="-0.0 0.0 1.0"/>
-        <limit lower="-${PI}" upper="${PI}" effort="${effort}" velocity="${velocity}"/>
-    </joint>
-
-    <joint name="Rigid 9" type="fixed">
-        <origin xyz="1.8e-05 -0.058 0.060821" rpy="0 0 0"/>
-        <parent link="A_link_2_1"/>
-        <child link="actuator_mini_3_1"/>
-    </joint>
-
-    <joint name="forearm_joint" type="revolute">
-        <origin xyz="0.0 0.055 0.0" rpy="0 0 0"/>
-        <parent link="actuator_mini_3_1"/>
-        <child link="B_link_2_1"/>
-        <axis xyz="0.0 1.0 -0.0"/>
-        <limit lower="-${PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
-    </joint>
-
-    <joint name="Rigid 11" type="fixed">
-        <origin xyz="-0.000222 0.003204 0.097179" rpy="0 0 0"/>
-        <parent link="B_link_2_1"/>
-        <child link="actuator_mini_4_1"/>
-    </joint>
-
-    <joint name="wrist_joint" type="revolute">
-        <origin xyz="0.0 0.0 0.055" rpy="0 0 0"/>
-        <parent link="actuator_mini_4_1"/>
-        <child link="A_link_v3_1"/>
         <axis xyz="0.0 0.0 1.0"/>
         <limit lower="-${PI}" upper="${PI}" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
-    <joint name="Rigid 13" type="fixed">
+    <joint name="Rigid 6" type="fixed">
         <origin xyz="1.8e-05 -0.058 0.060821" rpy="0 0 0"/>
-        <parent link="A_link_v3_1"/>
-        <child link="actuator_mini_v2_1"/>
+        <parent link="A_link_2_1"/>
+        <child link="mini_3_1"/>
     </joint>
 
-    <joint name="last_joint" type="revolute">
+    <joint name="forearm_joint" type="revolute">
         <origin xyz="0.0 0.055 0.0" rpy="0 0 0"/>
-        <parent link="actuator_mini_v2_1"/>
-        <child link="B_link_3_1"/>
-        <axis xyz="0.0 1.0 -0.0"/>
-        <limit lower="-${PI/2}" upper="${PI/2}" effort="${effort}" velocity="${velocity}"/>
+        <parent link="mini_3_1"/>
+        <child link="B_link_v3_1"/>
+        <axis xyz="-0.0 -1.0 0.0"/>
+        <limit lower="-1.833" upper="1.833" effort="${effort}" velocity="${velocity}"/>
     </joint>
 
+    <joint name="finger_joint" type="prismatic">
+        <origin xyz="0.044778 0.003204 0.102179" rpy="0 0 0"/>
+        <parent link="B_link_v3_1"/>
+        <child link="finger_1"/>
+        <axis xyz="1.0 -0.0 0.0"/>
+        <limit upper="0.0" lower="-0.09" effort="100" velocity="100"/>
+    </joint>
 
 </robot>
