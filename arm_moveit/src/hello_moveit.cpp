@@ -31,6 +31,7 @@ int main(int argc, char *argv[]) {
               std::ostream_iterator<std::string>(std::cout, ", "));
 
     auto current_pose = move_group_interface.getCurrentPose();
+//    current_pose.
 
 //    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL getEndEffectorLink %s", move_group_interface.getEndEffectorLink() .c_str());
     RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL current_pose.x %f", current_pose.pose.position.x);
