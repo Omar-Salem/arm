@@ -2,84 +2,67 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <moveit/move_group_interface/move_group_interface.h>
+#include <moveit/planning_scene_interface/planning_scene_interface.h>
+
+#include <moveit_msgs/msg/display_robot_state.hpp>
+#include <moveit_msgs/msg/display_trajectory.hpp>
+
+#include <moveit_msgs/msg/attached_collision_object.hpp>
+#include <moveit_msgs/msg/collision_object.hpp>
+
+#include <moveit_visual_tools/moveit_visual_tools.h>
+
 #include <chrono>
 #include <thread>
 
 using namespace std::chrono_literals;
+using moveit::planning_interface::MoveGroupInterface;
+using moveit::core::JointModelGroup;
+using moveit::planning_interface::PlanningSceneInterface;
+using  moveit::core::RobotStatePtr;
+static const std::string PLANNING_GROUP = "arm";
 
 int main(int argc, char *argv[]) {
     // Initialize ROS and create the Node
     rclcpp::init(argc, argv);
-    auto const node = std::make_shared<rclcpp::Node>(
+    auto const move_group_node = std::make_shared<rclcpp::Node>(
             "hello_moveit",
             rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
     );
 
     // Create a ROS logger
     auto const LOGGER = rclcpp::get_logger("hello_moveit");
-//    ros::AsyncSpinner spinner(1); spinner.start();
 
-    // Create the MoveIt MoveGroup Interface
-    using moveit::planning_interface::MoveGroupInterface;
-    auto move_group_interface = MoveGroupInterface(node, "arm");
+    auto move_group = MoveGroupInterface(move_group_node, PLANNING_GROUP);
 
-    RCLCPP_INFO(LOGGER, "Planning frame: %s", move_group_interface.getPlanningFrame().c_str());
-    RCLCPP_INFO(LOGGER, "End effector link: %s", move_group_interface.getEndEffectorLink().c_str());
-    RCLCPP_INFO(LOGGER, "Available Planning Groups:");
-    std::copy(move_group_interface.getJointModelGroupNames().begin(),
-              move_group_interface.getJointModelGroupNames().end(),
-              std::ostream_iterator<std::string>(std::cout, ", "));
+//    auto target_pose = move_group.getRandomPose();
+//    move_group.setPoseTarget(target_pose);
 
-    auto current_pose = move_group_interface.getCurrentPose();
-//    current_pose.
+    moveit::core::RobotStatePtr current_state = move_group.getCurrentState(10);
 
-//    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL getEndEffectorLink %s", move_group_interface.getEndEffectorLink() .c_str());
-    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL current_pose.x %f", current_pose.pose.position.x);
-    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL current_pose.y %f", current_pose.pose.position.y);
-    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL current_pose.z %f", current_pose.pose.position.z);
+    const JointModelGroup* joint_model_group =
+            move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
+    std::vector<double> joint_group_positions;
+    current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
 
-    auto target_pose = move_group_interface.getRandomPose();
-    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL target_pose.x %f", target_pose.pose.position.x);
-    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL target_pose.y %f", target_pose.pose.position.y);
-    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL target_pose.z %f", target_pose.pose.position.z);
+    joint_group_positions[0] = -1.0;  // radians
+    bool within_bounds = move_group.setJointValueTarget(joint_group_positions);
+    if (!within_bounds)
+    {
+        RCLCPP_WARN(LOGGER, "Target joint position(s) were outside of limits, but we will plan and clamp to the limits ");
+    }
 
-// Set a target Pose
-//    auto const target_pose = []{
-//        geometry_msgs::msg::Pose msg;
-//        msg.orientation.w = 1.0;
-//        msg.position.x = 0.005778;
-//        msg.position.y = 0.343882;
-//        msg.position.z = 0.323648;
-//        return msg;
-//    }();
-//    current_pose.pose.position.x = current_pose.pose.position.x + 0.1;
-//    move_group_interface.setRandomTarget();
-    move_group_interface.setPoseTarget(target_pose);
-//
-// Create a plan to that target pose
-    auto const [success, plan] = [&move_group_interface] {
+
+    auto const [success, plan] = [&move_group] {
         moveit::planning_interface::MoveGroupInterface::Plan msg;
-        auto const ok = static_cast<bool>(move_group_interface.plan(msg));
+        auto const ok = static_cast<bool>(move_group.plan(msg));
         return std::make_pair(ok, msg);
     }();
 
-// Execute the plan
-    if (success) {
-//        move_group_interface.execute(plan);
-//        move_group_interface.move();
-        bool success = (move_group_interface.execute(plan) == moveit::core::MoveItErrorCode::SUCCESS);
+    RCLCPP_INFO(LOGGER, "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
 
-        RCLCPP_INFO(LOGGER, "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
+//    moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 
-        current_pose = move_group_interface.getCurrentPose();
-
-//    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL getEndEffectorLink %s", move_group_interface.getEndEffectorLink() .c_str());
-        RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL x %f", current_pose.pose.position.x);
-        RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL y %f", current_pose.pose.position.y);
-        RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL z %f", current_pose.pose.position.z);
-    } else {
-        RCLCPP_ERROR(LOGGER, "Planning failed!");
-    }
 
     // Shutdown ROS
     rclcpp::shutdown();
