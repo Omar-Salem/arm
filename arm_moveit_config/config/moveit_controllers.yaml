@@ -16,6 +16,7 @@ moveit_simple_controller_manager:
       - shoulder_joint
       - biceptricep_joint
       - forearm_joint
+      - wrist_joint
   hand_controller:
     type: FollowJointTrajectory
     action_ns: follow_joint_trajectory

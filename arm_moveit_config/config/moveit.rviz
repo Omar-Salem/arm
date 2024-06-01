@@ -61,46 +61,47 @@ Visualization Manager:
         Color Enabled: false
         Interrupt Display: false
         Links:
+          Actuator_Cover_v4_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           All Links Enabled: true
           Expand Joint Details: false
           Expand Link Details: false
           Expand Tree: false
           Link Tree Style: Links in Alphabetic Order
+          aa_1_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          aa_2_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           base_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          biceptricep_1:
+          bb_1_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          biceptricep_forearm_link_1:
+          bb_2_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          forearm_1:
+          finger_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          should_biceptricep_link_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          shoulder_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          world:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          wrist_1:
+          hand_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -146,46 +147,47 @@ Visualization Manager:
       Scene Robot:
         Attached Body Color: 150; 50; 150
         Links:
+          Actuator_Cover_v4_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           All Links Enabled: true
           Expand Joint Details: false
           Expand Link Details: false
           Expand Tree: false
           Link Tree Style: Links in Alphabetic Order
+          aa_1_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          aa_2_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           base_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          biceptricep_1:
+          bb_1_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          biceptricep_forearm_link_1:
+          bb_2_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          forearm_1:
+          finger_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          should_biceptricep_link_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          shoulder_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          world:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          wrist_1:
+          hand_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -200,46 +202,47 @@ Visualization Manager:
       Enabled: true
       Interrupt Display: false
       Links:
+        Actuator_Cover_v4_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        aa_1_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        aa_2_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        biceptricep_1:
+        bb_1_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        biceptricep_forearm_link_1:
+        bb_2_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        forearm_1:
+        finger_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        should_biceptricep_link_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        shoulder_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        world:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        wrist_1:
+        hand_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -273,46 +276,47 @@ Visualization Manager:
       Scene Robot:
         Attached Body Color: 150; 50; 150
         Links:
+          Actuator_Cover_v4_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           All Links Enabled: true
           Expand Joint Details: false
           Expand Link Details: false
           Expand Tree: false
           Link Tree Style: Links in Alphabetic Order
+          aa_1_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          aa_2_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           base_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          biceptricep_1:
+          bb_1_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          biceptricep_forearm_link_1:
+          bb_2_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          forearm_1:
+          finger_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          should_biceptricep_link_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          shoulder_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          world:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          wrist_1:
+          hand_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -339,29 +343,27 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 3.5246834754943848
+      Distance: 1.6368772983551025
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.002400517463684082
-        Y: -0.023582151159644127
-        Z: -0.14442570507526398
+        X: 0.006616390310227871
+        Y: -0.012503092177212238
+        Z: 0.12976136803627014
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.09999941289424896
+      Pitch: 0.4449992775917053
       Target Frame: world
       Value: Orbit (rviz_default_plugins)
-      Yaw: 1.2269941568374634
+      Yaw: 2.011993646621704
     Saved: ~
 Window Geometry:
-  " - Trajectory Slider":
-    collapsed: false
   Displays:
     collapsed: false
   Height: 975
@@ -373,7 +375,9 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002b400000375fc0200000006fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100fffffffb000000100044006900730070006c006100790073010000003d00000123000000c900fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000166000001910000017d00fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a0056006900650077007301000002fd000000b5000000a400fffffffb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100ffffff000001f60000037500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000002b400000375fc0200000007fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100fffffffb000000100044006900730070006c006100790073010000003d00000123000000c900fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000166000001910000017d00fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a0056006900650077007301000002fd000000b5000000a400fffffffb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb0000003c005400720061006a006500630074006f007200790020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100ffffff000001f60000037500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Trajectory - Trajectory Slider:
+    collapsed: false
   Views:
     collapsed: false
   Width: 1200
