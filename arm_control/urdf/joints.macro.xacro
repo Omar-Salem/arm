@@ -25,11 +25,16 @@
                 <param name="initial_value">0.0</param>
             </state_interface>
         </joint>
-        <joint name="finger_joint">
+        <joint name="wrist_joint">
             <command_interface name="position"/>
             <state_interface name="position">
                 <param name="initial_value">0.0</param>
             </state_interface>
-        </joint>
+        </joint>        <joint name="finger_joint">
+        <command_interface name="position"/>
+        <state_interface name="position">
+            <param name="initial_value">0.0</param>
+        </state_interface>
+    </joint>
     </xacro:macro>
 </robot>

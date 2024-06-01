@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<robot name="arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
-
-    <xacro:include filename="$(find arm_description)/urdf/arm_core.xacro"/>
-    <xacro:include filename="$(find arm_control)/urdf/ros2_control.xacro"/>
-
-</robot>
