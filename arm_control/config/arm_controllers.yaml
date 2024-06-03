@@ -17,11 +17,13 @@ controller_manager:
 arm_controller:
   ros__parameters:
     joints:
-      - waist_joint
-      - shoulder_joint
-      - biceptricep_joint
-      - forearm_joint
-      - wrist_joint
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+      - joint7
 
     command_interfaces:
       - position

@@ -1,31 +1,43 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:macro name="joints">
-        <joint name="waist_joint">
+        <joint name="joint1">
             <command_interface name="position"/>
             <state_interface name="position">
                 <param name="initial_value">0.0</param>
             </state_interface>
         </joint>
-        <joint name="shoulder_joint">
+        <joint name="joint2">
             <command_interface name="position"/>
             <state_interface name="position">
                 <param name="initial_value">0.0</param>
             </state_interface>
         </joint>
-        <joint name="biceptricep_joint">
+        <joint name="joint3">
             <command_interface name="position"/>
             <state_interface name="position">
                 <param name="initial_value">0.0</param>
             </state_interface>
         </joint>
-        <joint name="forearm_joint">
+        <joint name="joint4">
             <command_interface name="position"/>
             <state_interface name="position">
                 <param name="initial_value">0.0</param>
             </state_interface>
         </joint>
-        <joint name="wrist_joint">
+        <joint name="joint5">
+            <command_interface name="position"/>
+            <state_interface name="position">
+                <param name="initial_value">0.0</param>
+            </state_interface>
+        </joint>
+        <joint name="joint6">
+            <command_interface name="position"/>
+            <state_interface name="position">
+                <param name="initial_value">0.0</param>
+            </state_interface>
+        </joint>
+        <joint name="joint7">
             <command_interface name="position"/>
             <state_interface name="position">
                 <param name="initial_value">0.0</param>

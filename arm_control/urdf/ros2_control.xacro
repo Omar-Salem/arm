@@ -2,9 +2,9 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:include filename="joints.macro.xacro"/>
 
-    <ros2_control name="ArmHardware" type="system">
+    <ros2_control name="FakeSystem" type="system">
         <hardware>
-            <plugin>arm_firmware/ArmHardware</plugin>
+            <plugin>mock_components/GenericSystem</plugin>
         </hardware>
         <xacro:joints/>
     </ros2_control>

@@ -13,5 +13,5 @@ source install/setup.bash
 ros2 launch arm_control gazebo.launch.py
 
 
-ros2 topic pub --once /arm_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory '{joint_names:["waist_joint","shoulder_joint","biceptricep_joint","forearm_joint","wrist_joint"],points: [{positions:[2,4,6,9,1]}]}'
+ros2 topic pub --once /arm_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory '{joint_names:["joint1","joint2","joint3","joint4","joint5","joint6","joint7"],points: [{positions:[2,4,6,9,1,1,2]}]}'
 ros2 topic pub --once /hand_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory '{joint_names:["finger_joint"],points: [{positions:[-45]}]}'
