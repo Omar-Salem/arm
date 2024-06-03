@@ -19,7 +19,7 @@ using namespace std::chrono_literals;
 using moveit::planning_interface::MoveGroupInterface;
 using moveit::core::JointModelGroup;
 using moveit::planning_interface::PlanningSceneInterface;
-using  moveit::core::RobotStatePtr;
+using moveit::core::RobotStatePtr;
 static const std::string PLANNING_GROUP = "arm";
 
 int main(int argc, char *argv[]) {
@@ -34,24 +34,22 @@ int main(int argc, char *argv[]) {
     auto const LOGGER = rclcpp::get_logger("hello_moveit");
 
     auto move_group = MoveGroupInterface(move_group_node, PLANNING_GROUP);
+//    PlanningSceneInterface planning_scene_interface;
 
-//    auto target_pose = move_group.getRandomPose();
-//    move_group.setPoseTarget(target_pose);
+    auto current_pose = move_group.getCurrentPose();
+//    current_pose.
 
-    moveit::core::RobotStatePtr current_state = move_group.getCurrentState(10);
+//    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL getEndEffectorLink %s", move_group.getEndEffectorLink() .c_str());
+    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL current_pose.x %f", current_pose.pose.position.x);
+    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL current_pose.y %f", current_pose.pose.position.y);
+    RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL current_pose.z %f", current_pose.pose.position.z);
 
-    const JointModelGroup* joint_model_group =
-            move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
-    std::vector<double> joint_group_positions;
-    current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
-
-    joint_group_positions[0] = -1.0;  // radians
-    bool within_bounds = move_group.setJointValueTarget(joint_group_positions);
-    if (!within_bounds)
-    {
-        RCLCPP_WARN(LOGGER, "Target joint position(s) were outside of limits, but we will plan and clamp to the limits ");
-    }
-
+    geometry_msgs::msg::Pose target_pose1;
+    target_pose1.orientation.w = 1.0;
+    target_pose1.position.x = 0.28;
+    target_pose1.position.y = -0.2;
+    target_pose1.position.z = 0.5;
+    move_group.setPoseTarget(target_pose1);
 
     auto const [success, plan] = [&move_group] {
         moveit::planning_interface::MoveGroupInterface::Plan msg;
@@ -59,9 +57,20 @@ int main(int argc, char *argv[]) {
         return std::make_pair(ok, msg);
     }();
 
-    RCLCPP_INFO(LOGGER, "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
 
-//    moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+    if (success) {
+        move_group.execute(plan);
+//        move_group.move();
+
+        current_pose = move_group.getCurrentPose();
+
+        RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL x %f", current_pose.pose.position.x);
+        RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL y %f", current_pose.pose.position.y);
+        RCLCPP_INFO(LOGGER, "LLLLLLLLLLLLLLLLLLLLLLLLLLL z %f", current_pose.pose.position.z);
+    } else {
+        RCLCPP_ERROR(LOGGER, "Planning failed!");
+    }
+
 
 
     // Shutdown ROS
