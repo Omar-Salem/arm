@@ -1,0 +1,12 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/omar-salem/arm_ws/install/arm_interfaces/lib/python3.12/site-packages",
+        "/home/omar-salem/microros_ws/install/micro_ros_msgs/lib/python3.12/site-packages",
+        "/opt/ros/jazzy/lib/python3.12/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/omar-salem/arm_ws/install/arm_interfaces/lib/python3.12/site-packages",
+        "/home/omar-salem/microros_ws/install/micro_ros_msgs/lib/python3.12/site-packages",
+        "/opt/ros/jazzy/lib/python3.12/site-packages"
+    ]
+}

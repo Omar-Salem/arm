@@ -33,7 +33,7 @@ namespace arm_firmware {
 
     CallbackReturn ArmHardware::on_init(
             const HardwareInfo &info) {
-        RCLCPP_INFO(get_logger("ArmHardware"), "on_init ...please wait...");
+        RCLCPP_INFO(get_logger(), "on_init ...please wait...");
 
         if (SystemInterface::on_init(info) != CallbackReturn::SUCCESS) {
             return CallbackReturn::ERROR;
@@ -45,12 +45,12 @@ namespace arm_firmware {
 
     CallbackReturn ArmHardware::on_configure(
             const State & /*previous_state*/) {
-        RCLCPP_INFO(get_logger("ArmHardware"), "on_configure ...please wait...");
+        RCLCPP_INFO(get_logger(), "on_configure ...please wait...");
         return CallbackReturn::SUCCESS;
     }
 
     vector <StateInterface> ArmHardware::export_state_interfaces() {
-        RCLCPP_INFO(get_logger("ArmHardware"), "export_state_interfaces ...please wait...");
+        RCLCPP_INFO(get_logger(), "export_state_interfaces ...please wait...");
         vector <StateInterface> state_interfaces;
 
         state_interfaces.emplace_back(
@@ -63,7 +63,7 @@ namespace arm_firmware {
     }
 
     vector <CommandInterface> ArmHardware::export_command_interfaces() {
-        RCLCPP_INFO(get_logger("ArmHardware"), "export_command_interfaces ...please wait...");
+        RCLCPP_INFO(get_logger(), "export_command_interfaces ...please wait...");
         vector <CommandInterface> command_interfaces;
         command_interfaces.emplace_back(
                 baseLink->name, HW_IF_POSITION, &baseLink->position_command);
@@ -75,13 +75,13 @@ namespace arm_firmware {
 
     CallbackReturn ArmHardware::on_activate(
             const State & /*previous_state*/) {
-        RCLCPP_INFO(get_logger("ArmHardware"), "on_activate ...please wait...");
+        RCLCPP_INFO(get_logger(), "on_activate ...please wait...");
         return CallbackReturn::SUCCESS;
     }
 
     CallbackReturn ArmHardware::on_deactivate(
             const State & /*previous_state*/) {
-        RCLCPP_INFO(get_logger("ArmHardware"), "on_deactivate ...please wait...");
+        RCLCPP_INFO(get_logger(), "on_deactivate ...please wait...");
         return CallbackReturn::SUCCESS;
     }
 
@@ -94,7 +94,7 @@ namespace arm_firmware {
     return_type ArmHardware::write(
             const Time & /*time*/, const Duration & /*period*/) {
 
-//        RCLCPP_INFO(get_logger("ArmHardware"), "baseLink->position_command %f",baseLink->position_command);
+//        RCLCPP_INFO(get_logger(), "baseLink->position_command %f",baseLink->position_command);
 
         setMotorsPositions(baseLink->position_command,
                           shoulder->position_command);

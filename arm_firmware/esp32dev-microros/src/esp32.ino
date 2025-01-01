@@ -8,8 +8,7 @@
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
 
-#include <arm_interfaces/msg/motor.h>
-#include <arm_interfaces/msg/motors_odom.h>
+#include <arm_interfaces/msg/motors.h>
 #include "TwoPinStepperMotor.h"
 
 #if !defined(MICRO_ROS_TRANSPORT_ARDUINO_SERIAL)
@@ -17,10 +16,10 @@
 #endif
 
 rcl_subscription_t positionCommandSubscriber;
-arm_interfaces__msg__MotorsOdom positionCommandCallbackMessage;
+arm_interfaces__msg__Motors positionCommandCallbackMessage;
 rclc_executor_t subscriberExecutor;
 
-rcl_publisher_t odomStatePublisher;
+rcl_publisher_t statePublisher;
 rclc_executor_t publisherExecutor;
 
 rclc_support_t support;
@@ -53,31 +52,31 @@ TaskHandle_t moveMotorsTask;
 // }
 
 void positionCommandCallback(const void *msgin) {
-    const arm_interfaces__msg__MotorsOdom *command = (const arm_interfaces__msg__MotorsOdom *) msgin;
-    baseLink.setPosition(command->base_link.position);
-    shoulder.setPosition(command->shoulder.position);
+    const arm_interfaces__msg__Motors *command = (const arm_interfaces__msg__Motors *) msgin;
+    baseLink.setPosition(command->base_link);
+    shoulder.setPosition(command->shoulder);
 }
 
-void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time) {
+void stateTimerCallback(rcl_timer_t *timer, int64_t last_call_time) {
     RCLC_UNUSED(last_call_time);
     if (timer != NULL) {
-        arm_interfaces__msg__MotorsOdom msg;
+        arm_interfaces__msg__Motors msg;
 
-        msg.base_link.position = baseLink.getPosition();
-        msg.shoulder.position = shoulder.getPosition();
+        msg.base_link = baseLink.getPosition();
+        msg.shoulder = shoulder.getPosition();
         
-        RCSOFTCHECK(rcl_publish(&odomStatePublisher, &msg, NULL));
+        RCSOFTCHECK(rcl_publish(&statePublisher, &msg, NULL));
     }
 }
 
 void createStatePublisher() {
 
     const rosidl_message_type_support_t *type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(arm_interfaces, msg,
-                                                                                    MotorsOdom);
+                                                                                    Motors);
 
 
     RCSOFTCHECK(rclc_publisher_init_default(
-            &odomStatePublisher,
+            &statePublisher,
             &node,
             type_support,
             "arm/motors_state"));
@@ -87,7 +86,7 @@ void createStatePublisher() {
             &publisherTimer,
             &support,
             RCL_MS_TO_NS(PUBLISHER_TIMER_TIMEOUT_MILL),
-            odomStateTimerCallback));
+            stateTimerCallback));
 
 
     // create executor
@@ -97,7 +96,7 @@ void createStatePublisher() {
 
 void createCommandSubscriber() {
     const rosidl_message_type_support_t *type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(arm_interfaces, msg,
-                                                                                    MotorsOdom);
+                                                                                    Motors);
 
     RCSOFTCHECK(rclc_subscription_init_default(
             &positionCommandSubscriber,

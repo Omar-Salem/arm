@@ -17,12 +17,12 @@ double TwoPinStepperMotor::getPosition() const {
 
 void TwoPinStepperMotor::setPosition(double position) {
     commandLastPing_ = millis();
-    accelStepper->setPosition(position);
+    accelStepper->move(position);
 }
 
 void TwoPinStepperMotor::move() {
     // if (millis() - commandLastPing_ >= DEAD_MAN_SWITCH_TIMEOUT_MILLI_SEC) {
     //     accelStepper->setSpeed(0);
     // }
-    accelStepper->runSpeed();
+    accelStepper->run();
 }
