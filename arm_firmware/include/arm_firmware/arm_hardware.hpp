@@ -26,8 +26,7 @@
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
 #include "rclcpp/macros.hpp"
 #include "rclcpp_lifecycle/state.hpp"
-#include "arm_interfaces/msg/motor.hpp"
-#include "arm_interfaces/msg/motors_odom.hpp"
+#include "arm_interfaces/msg/motors.hpp"
 #include "Motor.h"
 
 using namespace std;
@@ -72,12 +71,12 @@ namespace arm_firmware {
         unique_ptr <Motor> baseLink;
         unique_ptr <Motor> shoulder;
         std::shared_ptr <rclcpp::Node> node_;
-        rclcpp::Subscription<arm_interfaces::msg::MotorsOdom>::SharedPtr odomSubscription;
-        rclcpp::Publisher<arm_interfaces::msg::MotorsOdom>::SharedPtr positionPublisher;
+        rclcpp::Subscription<arm_interfaces::msg::Motors>::SharedPtr positionSubscription;
+        rclcpp::Publisher<arm_interfaces::msg::Motors>::SharedPtr positionPublisher;
 
         void setMotorsPositions(double baseLink, double shoulder);
 
-        void readOdom(const arm_interfaces::msg::MotorsOdom::SharedPtr motorsOdom);
+        void readMotorsPositions(const arm_interfaces::msg::Motors::SharedPtr motors);
     };
 
 }  // namespace arm_firmware

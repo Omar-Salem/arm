@@ -22,12 +22,12 @@
 
 namespace arm_firmware {
     ArmHardware::ArmHardware() : node_(std::make_shared<rclcpp::Node>("arm_motors_hw_interface_node")) {
-        odomSubscription = node_->create_subscription<arm_interfaces::msg::MotorsOdom>(
+        positionSubscription = node_->create_subscription<arm_interfaces::msg::Motors>(
                 "arm/motors_state", 10,
-                [this](const arm_interfaces::msg::MotorsOdom::SharedPtr motorsOdom) {
-                    this->readOdom(motorsOdom);
+                [this](const arm_interfaces::msg::Motors::SharedPtr motors) {
+                    this->readMotorsPositions(motors);
                 });
-        positionPublisher = node_->create_publisher<arm_interfaces::msg::MotorsOdom>("arm/motors_cmd",
+        positionPublisher = node_->create_publisher<arm_interfaces::msg::Motors>("arm/motors_cmd",
                                                                                      10);
     }
 
@@ -38,7 +38,7 @@ namespace arm_firmware {
         if (SystemInterface::on_init(info) != CallbackReturn::SUCCESS) {
             return CallbackReturn::ERROR;
         }
-        baseLink = make_unique<Motor>("waist_joint");
+        baseLink = make_unique<Motor>("baseLink_joint");
         shoulder = make_unique<Motor>("shoulder_joint");
         return CallbackReturn::SUCCESS;
     }
@@ -103,15 +103,15 @@ namespace arm_firmware {
 
     void ArmHardware::setMotorsPositions(double baseLink,
                                          double shoulder) {
-        auto cmd_msg = std::make_shared<arm_interfaces::msg::MotorsOdom>();
-        cmd_msg->base_link.position = baseLink;
-        cmd_msg->shoulder.position = shoulder;
+        auto cmd_msg = std::make_shared<arm_interfaces::msg::Motors>();
+        cmd_msg->base_link = baseLink;
+        cmd_msg->shoulder = shoulder;
         positionPublisher->publish(*cmd_msg);
     }
 
-    void ArmHardware::readOdom(const arm_interfaces::msg::MotorsOdom::SharedPtr motorsOdom) {
-        baseLink->position_state = motorsOdom->base_link.position;
-        shoulder->position_state = motorsOdom->shoulder.position;
+    void ArmHardware::readMotorsPositions(const arm_interfaces::msg::Motors::SharedPtr motors) {
+        baseLink->position_state = motors->base_link;
+        shoulder->position_state = motors->shoulder;
     }
 
 }  // namespace arm_firmware
