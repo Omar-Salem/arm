@@ -20,22 +20,7 @@ ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0
 cd ~/arm_ws
 colcon build --packages-select arm_interfaces
 source install/setup.bash 
-ros2 topic list -t | grep ugv/motors #check for /ugv/motors_cmd and /ugv/motors_state
+ros2 topic list -t | grep arm/motors #check for /arm/motors_cmd and /arm/motors_state
 
-# forward
-ros2 topic pub --once /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 6.28
-rear_right: 6.28
-front_left: 6.28
-front_right: 6.28" 
-
-# stop
-ros2 topic pub --once /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 0.0
-rear_right: 0.0
-front_left: 0.0
-front_right: 0.0" 
-
-# backward
-ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: -6.28
-rear_right: -6.28
-front_left: -6.28
-front_right: -6.28" 
+# positions
+ros2 topic pub --once /arm/motors_cmd arm_interfaces/msg/Motors "base_link: 6.28" 

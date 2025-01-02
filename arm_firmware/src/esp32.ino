@@ -1,47 +1,29 @@
-// https://www.hackster.io/514301/micro-ros-on-esp32-using-arduino-ide-1360ca
-// https://github.com/micro-ROS/micro_ros_platformio
 
-#include <Arduino.h>
 #include <micro_ros_platformio.h>
-
+#include <Arduino.h>
+#include <stdio.h>
 #include <rcl/rcl.h>
+#include <rcl/error_handling.h>
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
 
 #include <arm_interfaces/msg/motors.h>
 #include "TwoPinStepperMotor.h"
 
-#if !defined(MICRO_ROS_TRANSPORT_ARDUINO_SERIAL)
-#error This example is only avaliable for Arduino framework with serial transport.
-#endif
-
-rcl_subscription_t positionCommandSubscriber;
-arm_interfaces__msg__Motors positionCommandCallbackMessage;
-rclc_executor_t subscriberExecutor;
-
-rcl_publisher_t statePublisher;
-rclc_executor_t publisherExecutor;
-
+rcl_publisher_t publisher;
+rcl_subscription_t subscriber;
+arm_interfaces__msg__Motors msg;
+rclc_executor_t executor;
 rclc_support_t support;
 rcl_allocator_t allocator;
 rcl_node_t node;
-rcl_timer_t publisherTimer;
-const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
+rcl_timer_t timer;
 
 const int baseLink_step = 12;
 const int baseLink_dir = 14;
 
-const int shoulder_step = 4;
-const int shoulder_dir = 16;
+// TwoPinStepperMotor baseLink(baseLink_step,baseLink_dir);
 
-TwoPinStepperMotor baseLink(baseLink_step,baseLink_dir);
-TwoPinStepperMotor shoulder(shoulder_step, shoulder_dir);
-
-// https://randomnerdtutorials.com/esp32-dual-core-arduino-ide/
-TaskHandle_t moveMotorsTask;
-
-
-// #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){error_loop();}}
 #define RCSOFTCHECK(fn)                \
     {                                  \
         rcl_ret_t temp_rc = fn;        \
@@ -51,109 +33,79 @@ TaskHandle_t moveMotorsTask;
         }                              \
     }
 
-// Error handle loop
-// void error_loop() {
-//     while (1) {
-//         delay(100);
-//     }
-// }
-
-void positionCommandCallback(const void *msgin) {
-    const arm_interfaces__msg__Motors *command = (const arm_interfaces__msg__Motors *) msgin;
-    baseLink.setPosition(command->base_link);
-    shoulder.setPosition(command->shoulder);
-}
-
-void stateTimerCallback(rcl_timer_t *timer, int64_t last_call_time) {
+void timer_callback(rcl_timer_t *timer, int64_t last_call_time)
+{
     RCLC_UNUSED(last_call_time);
-    if (timer != NULL) {
-        arm_interfaces__msg__Motors msg;
+    if (timer != NULL)
+    {
+        arm_interfaces__msg__Motors motorsState;
 
-        msg.base_link = baseLink.getPosition();
-        msg.shoulder = shoulder.getPosition();
-        
-        RCSOFTCHECK(rcl_publish(&statePublisher, &msg, NULL));
+        // motorsState.base_link = baseLink.getPosition();
+        motorsState.base_link = 12;
+        RCSOFTCHECK(rcl_publish(&publisher, &motorsState, NULL));
     }
 }
 
-void createStatePublisher() {
+void subscription_callback(const void *msgin)
+{
+    // Cast received message to used type
+    const arm_interfaces__msg__Motors *command = (const arm_interfaces__msg__Motors *)msgin;
 
-    const rosidl_message_type_support_t *type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(arm_interfaces, msg,
-                                                                                    Motors);
-
-
-    RCSOFTCHECK(rclc_publisher_init_default(
-            &statePublisher,
-            &node,
-            type_support,
-            "arm/motors_state"));
-
-    // create timer
-    RCSOFTCHECK(rclc_timer_init_default(
-            &publisherTimer,
-            &support,
-            RCL_MS_TO_NS(PUBLISHER_TIMER_TIMEOUT_MILL),
-            stateTimerCallback));
-
-
-    // create executor
-    RCSOFTCHECK(rclc_executor_init(&publisherExecutor, &support.context, 1, &allocator));
-    RCSOFTCHECK(rclc_executor_add_timer(&publisherExecutor, &publisherTimer));
+    //   // Process message
+    printf("base_link: %d\n", command->base_link);
 }
 
-void createCommandSubscriber() {
-    const rosidl_message_type_support_t *type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(arm_interfaces, msg,
-                                                                                    Motors);
+void setup()
+{
 
-    RCSOFTCHECK(rclc_subscription_init_default(
-            &positionCommandSubscriber,
-            &node,
-            type_support,
-            "arm/motors_cmd"));
-
-
-    RCSOFTCHECK(rclc_executor_init(&subscriberExecutor, &support.context, 1, &allocator));
-
-    RCSOFTCHECK(rclc_executor_add_subscription(&subscriberExecutor,
-                                               &positionCommandSubscriber,
-                                               &positionCommandCallbackMessage,
-                                               &positionCommandCallback,
-                                               ON_NEW_DATA));
-}
-
-void setup() {
     Serial.begin(115200);
     set_microros_serial_transports(Serial);
 
     allocator = rcl_get_default_allocator();
 
+    // create init_options
     RCSOFTCHECK(rclc_support_init(&support, 0, NULL, &allocator));
 
+    // create node
     RCSOFTCHECK(rclc_node_init_default(&node, "micro_ros_arm_motors", "", &support));
 
-    createStatePublisher();
+    const rosidl_message_type_support_t *type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(arm_interfaces, msg,
+                                                                                    Motors);
 
-    createCommandSubscriber();
+    // create publisher
+    RCSOFTCHECK(rclc_publisher_init_default(
+        &publisher,
+        &node,
+        type_support,
+        "arm/motors_state"));
 
-    xTaskCreatePinnedToCore(
-            moveMotors,   /* Task function. */
-            "moveMotorsTask",     /* name of task. */
-            10000,       /* Stack size of task */
-            NULL,        /* parameter of the task */
-            0,           /* priority of the task */
-            &moveMotorsTask,      /* Task handle to keep track of created task */
-            0);          /* pin task to core 1 */
+    RCSOFTCHECK(rclc_subscription_init_default(
+        &subscriber,
+        &node,
+        type_support,
+        "arm/motors_cmd"));
 
+    RCSOFTCHECK(rclc_executor_add_subscription(
+        &executor,
+        &subscriber,
+        &msg,
+        &subscription_callback,
+        ON_NEW_DATA));
+
+    // create timer,
+    const unsigned int timer_timeout = 1000;
+    RCSOFTCHECK(rclc_timer_init_default(
+        &timer,
+        &support,
+        RCL_MS_TO_NS(timer_timeout),
+        timer_callback));
+
+    // create executor
+    RCSOFTCHECK(rclc_executor_init(&executor, &support.context, 1, &allocator));
+    RCSOFTCHECK(rclc_executor_add_timer(&executor, &timer));
 }
 
-void loop() {
-    RCSOFTCHECK(rclc_executor_spin_some(&publisherExecutor, RCL_MS_TO_NS(50)));
-    RCSOFTCHECK(rclc_executor_spin_some(&subscriberExecutor, RCL_MS_TO_NS(50)));
-}
-
-void moveMotors(void *pvParameters) {
-    for (;;) {
-        baseLink.move();
-        shoulder.move();
-    }
+void loop()
+{
+    RCSOFTCHECK(rclc_executor_spin_some(&executor, RCL_MS_TO_NS(100)));
 }
