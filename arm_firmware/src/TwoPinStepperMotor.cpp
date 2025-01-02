@@ -4,25 +4,24 @@
 
 #include "TwoPinStepperMotor.h"
 
-TwoPinStepperMotor::TwoPinStepperMotor(byte stepPin,
-                                       byte dirPin) {
-    commandLastPing_ = millis();
-    accelStepper = new AccelStepper(1, stepPin);
+TwoPinStepperMotor::TwoPinStepperMotor(int stepPin,
+                                       int dirPin)
+{
+    accelStepper = new AccelStepper(AccelStepper::DRIVER, stepPin, dirPin);
+    accelStepper->setMaxSpeed(200);
 }
 
-
-double TwoPinStepperMotor::getPosition() const {
+long TwoPinStepperMotor::getPosition() const
+{
     return accelStepper->currentPosition();
 }
 
-void TwoPinStepperMotor::setPosition(double position) {
-    commandLastPing_ = millis();
-    accelStepper->move(position);
+void TwoPinStepperMotor::moveTo(long position)
+{
+    accelStepper->moveTo(position);
 }
 
-void TwoPinStepperMotor::move() {
-    // if (millis() - commandLastPing_ >= DEAD_MAN_SWITCH_TIMEOUT_MILLI_SEC) {
-    //     accelStepper->setSpeed(0);
-    // }
+void TwoPinStepperMotor::run()
+{
     accelStepper->run();
 }
