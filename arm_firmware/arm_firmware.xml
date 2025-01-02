@@ -1,9 +1,0 @@
-<library path="arm_firmware">
-  <class name="arm_firmware/ArmHardware"
-         type="arm_firmware::ArmHardware"
-         base_class_type="hardware_interface::SystemInterface">
-    <description>
-      Chassis differential drive
-    </description>
-  </class>
-</library>

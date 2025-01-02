@@ -1,0 +1,9 @@
+<library path="arm_hardware_interface">
+  <class name="arm_hardware_interface/ArmHardware"
+         type="arm_hardware_interface::ArmHardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      6 DOF arm
+    </description>
+  </class>
+</library>
