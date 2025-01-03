@@ -3,53 +3,61 @@ import os
 import xacro
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, PathJoinSubstitution, LaunchConfiguration
-from launch_ros.actions import Node
+from launch_ros.actions import Node, SetParameter
 from launch_ros.substitutions import FindPackageShare
-from launch.conditions import IfCondition
 
 
 def generate_launch_description():
-    package_name = 'arm_control'
+    package_name = "arm_control"
     share_dir = get_package_share_directory(package_name)
-    xacro_file = os.path.join(share_dir, 'urdf', 'arm.xacro')
-    robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'true'})
-    robot_urdf = robot_description_config.toxml()
-
-    robot_state_publisher_node = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        parameters=[
-            {
-                'robot_description': robot_urdf,
-                'use_sim_time': True
-            }
-        ]
+    xacro_file = os.path.join(share_dir, "urdf", "arm.xacro")
+    robot_description_config = xacro.process_file(
+        xacro_file, mappings={"is_sim": "true"}
     )
+    robot_urdf = robot_description_config.toxml()
 
     controller_nodes = create_controller_nodes()
 
-    rviz_config_file = os.path.join(share_dir, 'config', 'display.rviz')
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        arguments=['-d', rviz_config_file],
-        output='screen',
-        condition=IfCondition(LaunchConfiguration("use_rviz")),
-    )
+    arm_description_launch = [
+        os.path.join(get_package_share_directory("arm_description"), "launch"),
+        "/gazebo.launch.py",
+    ]
 
+    rviz_config_file_arg = DeclareLaunchArgument(
+        name="rviz_config_file",
+        default_value=os.path.join(share_dir, "config", "display.rviz"),
+    )
     return LaunchDescription(
-        create_gazebo_nodes() +
         [
-            DeclareLaunchArgument("use_rviz", default_value='True'),
-            robot_state_publisher_node,
-            rviz_node
-        ] +
-        controller_nodes
+            rviz_config_file_arg,
+            GroupAction(
+                actions=[
+                    SetParameter(name="use_sim_time", value=True),
+                    #         Node(
+                    #     package="odometry_test",
+                    #     executable="square_follower",
+                    # ),
+                    IncludeLaunchDescription(
+                        PythonLaunchDescriptionSource(arm_description_launch),
+                        launch_arguments={
+                            "robot_urdf": robot_urdf,
+                            "use_gui": "True",
+                            "use_joint_state_publisher": "False",
+                #             "world":os.path.join(
+                #     get_package_share_directory("arm_description"),
+                #     "worlds",
+                #     "walls",
+                # ),
+                            "rviz_config_file": LaunchConfiguration("rviz_config_file"),
+                        }.items(),
+                    ),
+                ]
+                + controller_nodes
+            ),
+        ]
     )
 
 
@@ -58,31 +66,26 @@ def create_controller_nodes() -> list:
 
     :rtype: list
     """
-    robot_controller_names = ['joint_state_broadcaster', 'arm_controller', 'hand_controller']
-    robot_controller_spawners = []
-    for controller in robot_controller_names:
-        robot_controller_spawners += [
-            Node(
-                package="controller_manager",
-                executable="spawner",
-                arguments=[controller]
-            )
+    controllers_params = PathJoinSubstitution(
+        [
+            FindPackageShare("arm_control"),
+            "config",
+            "arm_controllers.yaml",
         ]
-    return robot_controller_spawners
-
-
-def create_gazebo_nodes() -> list:
-    """
-
-    :rtype: list
-    """
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
     )
-    spawn_entity = Node(package='gazebo_ros',
-                        executable='spawn_entity.py',
-                        arguments=['-topic', 'robot_description',
-                                   '-entity', 'arm'],
-                        output='screen')
-    return [gazebo, spawn_entity]
+
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster"],
+    )
+    diff_drive_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "diff_drive_controller",
+            "--param-file",
+            controllers_params,
+        ],
+    )
+    return [joint_state_broadcaster_spawner, diff_drive_controller_spawner]

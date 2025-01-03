@@ -12,7 +12,7 @@
   <depend>urdf</depend>
   <depend>xacro</depend>
   <depend>robot_state_publisher</depend>
-  <depend>arm_firmware</depend>
+  <depend>arm_hardware_interface</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
