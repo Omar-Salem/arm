@@ -33,7 +33,7 @@ using namespace std;
 using namespace rclcpp;
 using namespace rclcpp_lifecycle;
 using namespace hardware_interface;
-namespace arm_firmware {
+namespace arm_hardware_interface {
     class ArmHardware : public SystemInterface {
     public:
         ArmHardware();
@@ -71,14 +71,14 @@ namespace arm_firmware {
         unique_ptr <Motor> baseLink;
         unique_ptr <Motor> shoulder;
         std::shared_ptr <rclcpp::Node> node_;
-        rclcpp::Subscription<arm_interfaces::msg::Motors>::SharedPtr positionSubscription;
-        rclcpp::Publisher<arm_interfaces::msg::Motors>::SharedPtr positionPublisher;
+        rclcpp::Subscription<arm_interfaces::msg::Motors>::SharedPtr stateSubscription;
+        rclcpp::Publisher<arm_interfaces::msg::Motors>::SharedPtr commandPublisher;
 
         void setMotorsPositions(double baseLink, double shoulder);
 
         void readMotorsPositions(const arm_interfaces::msg::Motors::SharedPtr motors);
     };
 
-}  // namespace arm_firmware
+}  // namespace arm_hardware_interface
 
 #endif  // ARM_HARDWARE_INTERFACE__ARM_HARDWARE_HPP_

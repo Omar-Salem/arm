@@ -20,14 +20,14 @@
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-namespace arm_firmware {
+namespace arm_hardware_interface {
     ArmHardware::ArmHardware() : node_(std::make_shared<rclcpp::Node>("arm_motors_hw_interface_node")) {
-        positionSubscription = node_->create_subscription<arm_interfaces::msg::Motors>(
+        stateSubscription = node_->create_subscription<arm_interfaces::msg::Motors>(
                 "arm/motors_state", 10,
                 [this](const arm_interfaces::msg::Motors::SharedPtr motors) {
                     this->readMotorsPositions(motors);
                 });
-        positionPublisher = node_->create_publisher<arm_interfaces::msg::Motors>("arm/motors_cmd",
+        commandPublisher = node_->create_publisher<arm_interfaces::msg::Motors>("arm/motors_cmd",
                                                                                      10);
     }
 
@@ -106,7 +106,7 @@ namespace arm_firmware {
         auto cmd_msg = std::make_shared<arm_interfaces::msg::Motors>();
         cmd_msg->base_link = baseLink;
         cmd_msg->shoulder = shoulder;
-        positionPublisher->publish(*cmd_msg);
+        commandPublisher->publish(*cmd_msg);
     }
 
     void ArmHardware::readMotorsPositions(const arm_interfaces::msg::Motors::SharedPtr motors) {
@@ -114,10 +114,10 @@ namespace arm_firmware {
         shoulder->position_state = motors->shoulder;
     }
 
-}  // namespace arm_firmware
+}  // namespace arm_hardware_interface
 
 #include "pluginlib/class_list_macros.hpp"
 
 PLUGINLIB_EXPORT_CLASS(
-        arm_firmware::ArmHardware, hardware_interface::SystemInterface
+        arm_hardware_interface::ArmHardware, hardware_interface::SystemInterface
 )
