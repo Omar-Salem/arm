@@ -22,8 +22,9 @@ rcl_timer_t timer;
 
 const int joint_1_step = 12;
 const int joint_1_dir = 14;
+const double joint_1_reduction = 25;
 
-TwoPinStepperMotor joint_1(joint_1_step, joint_1_dir);
+TwoPinStepperMotor joint_1(joint_1_step, joint_1_dir, joint_1_reduction);
 
 #define RCSOFTCHECK(fn)                \
     {                                  \
