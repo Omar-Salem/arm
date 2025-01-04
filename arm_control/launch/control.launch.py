@@ -23,7 +23,9 @@ def generate_launch_description():
     display_node = create_display_node(share_dir)
     
     micro_ros = ExecuteProcess(
-        cmd=[os.path.join(share_dir, "launch", "microros.sh"),LaunchConfiguration("micro_ros_port")], output="screen"
+        cmd=[['ros2 run micro_ros_agent micro_ros_agent serial --dev ',LaunchConfiguration("micro_ros_port")]], 
+        shell=True, 
+        output="screen"
     )
 
     rviz_config_file_arg = DeclareLaunchArgument(
@@ -78,7 +80,7 @@ def create_display_node(share_dir):
 
 
 def create_controller_nodes(package_name):
-    robot_controller_names = ["joint_state_broadcaster", "diff_drive_controller"]
+    robot_controller_names = ["joint_state_broadcaster", "arm_controller"]
     robot_controller_spawners = []
     for c in robot_controller_names:
         robot_controller_spawners += [

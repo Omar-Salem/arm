@@ -38,8 +38,7 @@ namespace arm_hardware_interface {
         if (SystemInterface::on_init(info) != CallbackReturn::SUCCESS) {
             return CallbackReturn::ERROR;
         }
-        baseLink = make_unique<Motor>("baseLink_joint");
-        shoulder = make_unique<Motor>("shoulder_joint");
+        joint_1 = make_unique<Motor>("joint_1");
         return CallbackReturn::SUCCESS;
     }
 
@@ -54,10 +53,7 @@ namespace arm_hardware_interface {
         vector <StateInterface> state_interfaces;
 
         state_interfaces.emplace_back(
-                baseLink->name, HW_IF_POSITION, &baseLink->position_state);
-
-        state_interfaces.emplace_back(
-                shoulder->name, HW_IF_POSITION, &shoulder->position_state);
+                joint_1->name, HW_IF_POSITION, &joint_1->position_state);
 
         return state_interfaces;
     }
@@ -66,9 +62,7 @@ namespace arm_hardware_interface {
         RCLCPP_INFO(get_logger(), "export_command_interfaces ...please wait...");
         vector <CommandInterface> command_interfaces;
         command_interfaces.emplace_back(
-                baseLink->name, HW_IF_POSITION, &baseLink->position_command);
-        command_interfaces.emplace_back(
-                shoulder->name, HW_IF_POSITION, &shoulder->position_command);
+                joint_1->name, HW_IF_POSITION, &joint_1->position_command);
 
         return command_interfaces;
     }
@@ -94,24 +88,20 @@ namespace arm_hardware_interface {
     return_type ArmHardware::write(
             const Time & /*time*/, const Duration & /*period*/) {
 
-//        RCLCPP_INFO(get_logger(), "baseLink->position_command %f",baseLink->position_command);
+//        RCLCPP_INFO(get_logger(), "joint_1->position_command %f",joint_1->position_command);
 
-        setMotorsPositions(baseLink->position_command,
-                          shoulder->position_command);
+        setMotorsPositions(joint_1->position_command);
         return return_type::OK;
     }
 
-    void ArmHardware::setMotorsPositions(double baseLink,
-                                         double shoulder) {
+    void ArmHardware::setMotorsPositions(double joint_1) {
         auto cmd_msg = std::make_shared<arm_interfaces::msg::Motors>();
-        cmd_msg->base_link = baseLink;
-        cmd_msg->shoulder = shoulder;
+        cmd_msg->joint_1 = joint_1;
         commandPublisher->publish(*cmd_msg);
     }
 
     void ArmHardware::readMotorsPositions(const arm_interfaces::msg::Motors::SharedPtr motors) {
-        baseLink->position_state = motors->base_link;
-        shoulder->position_state = motors->shoulder;
+        joint_1->position_state = motors->joint_1;
     }
 
 }  // namespace arm_hardware_interface

@@ -11,14 +11,14 @@ TwoPinStepperMotor::TwoPinStepperMotor(int stepPin,
     accelStepper->setMaxSpeed(200);
 }
 
-long TwoPinStepperMotor::getPosition() const
+double TwoPinStepperMotor::getPosition() const
 {
-    return accelStepper->currentPosition();
+    return accelStepper->currentPosition() * STEPS_TO_RADIANS;
 }
 
-void TwoPinStepperMotor::moveTo(long position)
+void TwoPinStepperMotor::moveTo(double position)
 {
-    accelStepper->moveTo(position);
+    accelStepper->moveTo(position * RADIANS_TO_STEPS);
 }
 
 void TwoPinStepperMotor::run()

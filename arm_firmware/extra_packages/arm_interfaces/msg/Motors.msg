@@ -1,2 +1,1 @@
-float64 base_link
-float64 shoulder
+float64 joint_1

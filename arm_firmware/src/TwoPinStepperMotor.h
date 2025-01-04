@@ -9,14 +9,18 @@
 
 class TwoPinStepperMotor {
 private:
+    const double FULL_CIRCLE_RADIANS = 6.28319;
+    const double FULL_CIRCLE_STEPS = 200;
+    const double RADIANS_TO_STEPS = FULL_CIRCLE_STEPS/FULL_CIRCLE_RADIANS;
+    const double STEPS_TO_RADIANS = FULL_CIRCLE_RADIANS/FULL_CIRCLE_STEPS;
     AccelStepper *accelStepper;
 
 public:
     TwoPinStepperMotor(int stepPin, int dirPin);
 
-    long getPosition() const;
+    double getPosition() const;
 
-    void moveTo(long position);
+    void moveTo(double position);
 
     void run();
 };

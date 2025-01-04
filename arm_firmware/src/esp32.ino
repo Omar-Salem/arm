@@ -20,10 +20,10 @@ rcl_allocator_t allocator;
 rcl_node_t node;
 rcl_timer_t timer;
 
-const int baseLink_step = 12;
-const int baseLink_dir = 14;
+const int joint_1_step = 12;
+const int joint_1_dir = 14;
 
-TwoPinStepperMotor baseLink(baseLink_step, baseLink_dir);
+TwoPinStepperMotor joint_1(joint_1_step, joint_1_dir);
 
 #define RCSOFTCHECK(fn)                \
     {                                  \
@@ -40,7 +40,7 @@ void timer_callback(rcl_timer_t *timer, int64_t last_call_time)
     if (timer != NULL)
     {
         arm_interfaces__msg__Motors motorsState;
-        motorsState.base_link = baseLink.getPosition();
+        motorsState.joint_1 = joint_1.getPosition();
         RCSOFTCHECK(rcl_publish(&publisher, &motorsState, NULL));
     }
 }
@@ -48,7 +48,7 @@ void timer_callback(rcl_timer_t *timer, int64_t last_call_time)
 void subscription_callback(const void *msgin)
 {
     const arm_interfaces__msg__Motors *command = (const arm_interfaces__msg__Motors *)msgin;
-    baseLink.moveTo(command->base_link);
+    joint_1.moveTo(command->joint_1);
 }
 
 void setup()
@@ -107,5 +107,5 @@ void loop()
     RCSOFTCHECK(rclc_executor_spin_some(&pub_executor, RCL_MS_TO_NS(100)));
     RCSOFTCHECK(rclc_executor_spin_some(&sub_executor, RCL_MS_TO_NS(100)));
 
-    baseLink.run();
+    joint_1.run();
 }

@@ -79,13 +79,13 @@ def create_controller_nodes() -> list:
         executable="spawner",
         arguments=["joint_state_broadcaster"],
     )
-    diff_drive_controller_spawner = Node(
+    arm_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
         arguments=[
-            "diff_drive_controller",
+            "arm_controller",
             "--param-file",
             controllers_params,
         ],
     )
-    return [joint_state_broadcaster_spawner, diff_drive_controller_spawner]
+    return [joint_state_broadcaster_spawner, arm_controller_spawner]

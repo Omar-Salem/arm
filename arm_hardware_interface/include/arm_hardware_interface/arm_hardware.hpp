@@ -68,13 +68,12 @@ namespace arm_hardware_interface {
                 const rclcpp::Time &time, const rclcpp::Duration &period) override;
 
     private:
-        unique_ptr <Motor> baseLink;
-        unique_ptr <Motor> shoulder;
+        unique_ptr <Motor> joint_1;
         std::shared_ptr <rclcpp::Node> node_;
         rclcpp::Subscription<arm_interfaces::msg::Motors>::SharedPtr stateSubscription;
         rclcpp::Publisher<arm_interfaces::msg::Motors>::SharedPtr commandPublisher;
 
-        void setMotorsPositions(double baseLink, double shoulder);
+        void setMotorsPositions(double joint_1);
 
         void readMotorsPositions(const arm_interfaces::msg::Motors::SharedPtr motors);
     };
