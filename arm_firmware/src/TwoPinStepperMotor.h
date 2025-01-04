@@ -14,7 +14,7 @@ private:
     const double FULL_CIRCLE_STEPS = 200;
     const double RADIANS_TO_STEPS = FULL_CIRCLE_STEPS / FULL_CIRCLE_RADIANS;
     const double STEPS_TO_RADIANS = FULL_CIRCLE_RADIANS / FULL_CIRCLE_STEPS;
-    const int MAX_SPEED=900;
+    const int MAX_SPEED = 1000;
     double reduction;
     AccelStepper *accelStepper;
 

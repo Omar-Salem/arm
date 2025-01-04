@@ -21,7 +21,7 @@ double TwoPinStepperMotor::getPosition() const
 void TwoPinStepperMotor::moveTo(double position)
 {
     accelStepper->moveTo(position * RADIANS_TO_STEPS * reduction);
-    accelStepper->setSpeed(FULL_CIRCLE_STEPS*2);
+    accelStepper->setSpeed(FULL_CIRCLE_STEPS * 2);
 }
 
 void TwoPinStepperMotor::run()

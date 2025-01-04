@@ -25,6 +25,10 @@ const int joint_1_dir = 14;
 const double joint_1_reduction = 25;
 
 TwoPinStepperMotor joint_1(joint_1_step, joint_1_dir, joint_1_reduction);
+TwoPinStepperMotor *motors[1] = {&joint_1};
+
+// https://randomnerdtutorials.com/esp32-dual-core-arduino-ide/
+TaskHandle_t moveMotorsTask;
 
 #define RCSOFTCHECK(fn)                \
     {                                  \
@@ -101,12 +105,30 @@ void setup()
         &msg,
         &subscription_callback,
         ON_NEW_DATA));
+
+    xTaskCreatePinnedToCore(
+        moveMotors,       /* Task function. */
+        "moveMotorsTask", /* name of task. */
+        10000,            /* Stack size of task */
+        NULL,             /* parameter of the task */
+        0,                /* priority of the task */
+        &moveMotorsTask,  /* Task handle to keep track of created task */
+        0);               /* pin task to core 1 */
 }
 
 void loop()
 {
     RCSOFTCHECK(rclc_executor_spin_some(&pub_executor, RCL_MS_TO_NS(100)));
     RCSOFTCHECK(rclc_executor_spin_some(&sub_executor, RCL_MS_TO_NS(100)));
+}
 
-    joint_1.run();
+void moveMotors(void *pvParameters)
+{
+    for (;;)
+    {
+        for (auto s : motors)
+        {
+            s->run();
+        }
+    }
 }
