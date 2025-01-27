@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# flash basic first
 # check connections
 # check battery is on
 
-# clean platformio
-# flash esp32
+MKS-SERVO42C settings:
+MStep->1
+Dir->CCW
+Protect->Enable
 
 
 curl -fsSL -o get-platformio.py https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py
@@ -35,7 +36,5 @@ ros2 topic list -t | grep arm/motors #check for /arm/motors_cmd and /arm/motors_
 ros2 topic pub --once /arm/motors_cmd arm_interfaces/msg/Motors "joint_1: 6.28" 
 
 
-cd ~/arm_ws
-source install/setup.bash 
-ros2 topic echo /arm/motors_state
+cd ~/arm_ws && source install/setup.bash && ros2 topic echo /arm/motors_state
 
