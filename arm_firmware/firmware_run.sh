@@ -33,7 +33,9 @@ source install/setup.bash
 ros2 topic list -t | grep arm/motors #check for /arm/motors_cmd and /arm/motors_state
 
 # positions
+ros2 topic pub --once /arm/motors_cmd arm_interfaces/msg/Motors "joint_1: 0" 
 ros2 topic pub --once /arm/motors_cmd arm_interfaces/msg/Motors "joint_1: 3.14" 
+ros2 topic pub --once /arm/motors_cmd arm_interfaces/msg/Motors "joint_1: 6.28" 
 
 
 cd ~/arm_ws && source install/setup.bash && ros2 topic echo /arm/motors_state
