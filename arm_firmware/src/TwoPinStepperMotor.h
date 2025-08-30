@@ -23,7 +23,7 @@ public:
 
     double getPosition() const;
 
-    void moveTo(double position);
+    void moveTo(double angleRadians);
 
     void run();
 };
