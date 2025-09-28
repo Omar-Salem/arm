@@ -37,6 +37,8 @@ ros2 topic pub --once /arm/motors_cmd arm_interfaces/msg/Motors "joint_1: 0"
 ros2 topic pub --once /arm/motors_cmd arm_interfaces/msg/Motors "joint_1: 3.14" 
 ros2 topic pub --once /arm/motors_cmd arm_interfaces/msg/Motors "joint_1: 6.28" 
 
+ros2 topic echo /arm/motors_state
+
 
 cd ~/arm_ws && source install/setup.bash && ros2 topic echo /arm/motors_state
 
