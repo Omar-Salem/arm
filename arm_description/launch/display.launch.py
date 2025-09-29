@@ -59,6 +59,13 @@ def generate_launch_description():
             }
         ]
     )
+    
+    joint_state_publisher_gui_node = Node(
+        condition=IfCondition(use_gui),
+        package='joint_state_publisher_gui',
+        executable='joint_state_publisher_gui',
+        name='joint_state_publisher_gui'
+    )
 
     rviz_node = Node(
         package='rviz2',
@@ -70,6 +77,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        joint_state_publisher_gui_node,
         use_sim_time_arg,
         robot_urdf_arg,
         rviz_config_file_arg,

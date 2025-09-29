@@ -22,12 +22,20 @@ rcl_timer_t timer;
 
 const int joint_1_step = 12;
 const int joint_1_dir = 14;
+
+const int joint_2_step = 12;
+const int joint_2_dir = 14;
+
 const double joint_1_reduction = 64;
 const double joint_2_reduction = 64;
 const double joint_3_reduction = 25;
 
 TwoPinStepperMotor joint_1(joint_1_step, joint_1_dir, joint_1_reduction);
-TwoPinStepperMotor *motors[1] = {&joint_1};
+TwoPinStepperMotor joint_2(joint_2_step, joint_2_dir, joint_2_reduction);
+
+TwoPinStepperMotor *motors[1] = {
+    &joint_1,
+    &joint_2};
 
 // https://randomnerdtutorials.com/esp32-dual-core-arduino-ide/
 TaskHandle_t moveMotorsTask;
@@ -48,6 +56,7 @@ void timer_callback(rcl_timer_t *timer, int64_t last_call_time)
     {
         arm_interfaces__msg__Motors motorsState;
         motorsState.joint_1 = joint_1.getPosition();
+        motorsState.joint_2 = joint_2.getPosition();
         RCSOFTCHECK(rcl_publish(&publisher, &motorsState, NULL));
     }
 }
@@ -56,6 +65,7 @@ void subscription_callback(const void *msgin)
 {
     const arm_interfaces__msg__Motors *command = (const arm_interfaces__msg__Motors *)msgin;
     joint_1.moveTo(command->joint_1);
+    joint_2.moveTo(command->joint_2);
 }
 
 void setup()
