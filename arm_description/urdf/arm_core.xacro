@@ -1,103 +1,88 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <robot name="arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:property name="PI" value="3.14159265359" />
-  <xacro:property name="effort" value="30" />
-  <xacro:property name="velocity" value="10" />
+<xacro:include filename="$(find arm_description)/urdf/materials.xacro" />
+<xacro:property name="PI" value="3.14159265359" />
+<xacro:property name="effort" value="30" />
+<xacro:property name="velocity" value="10" />
 
-  <material name="black">
-    <color rgba="0 0 0 1" />
-</material>
+<link name="base_link">
+  <inertial>
+    <origin xyz="-8.003962236693073e-05 -6.3633345680673e-06 -0.0902510859444478" rpy="0 0 0"/>
+    <mass value="13.209210477237487"/>
+    <inertia ixx="0.022854" iyy="0.037448" izz="0.042454" ixy="0.0" iyz="-0.0" ixz="-7e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
 
-  <link name="world" />
+<link name="j2_1">
+  <inertial>
+    <origin xyz="-4.995526395401573e-05 0.08189630150884797 0.11003474433619179" rpy="0 0 0"/>
+    <mass value="13.236708010334862"/>
+    <inertia ixx="0.037769" iyy="0.042685" izz="0.022945" ixy="0.0" iyz="-0.000135" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.02925 -4.4e-05 0.04332" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/j2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.02925 -4.4e-05 0.04332" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/j2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
 
-  <link name="base_link">
-    <inertial>
-      <origin xyz="-8.003962236693073e-05 -6.3633345680673e-06 -0.0902510859444478" rpy="0 0 0" />
-      <mass value="13.209210477237487" />
-      <inertia ixx="0.022854" iyy="0.037448" izz="0.042454" ixy="0.0" iyz="-0.0" ixz="-7e-06" />
-    </inertial>
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find arm_description)/meshes/base_link.stl"
-          scale="0.001 0.001 0.001" />
-      </geometry>
-      <material name="black" />
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find arm_description)/meshes/base_link.stl"
-          scale="0.001 0.001 0.001" />
-      </geometry>
-    </collision>
-  </link>
+<link name="j3_1">
+  <inertial>
+    <origin xyz="-0.10862594613593025 -0.05360196950323787 -4.739058210631586e-05" rpy="0 0 0"/>
+    <mass value="6.378639750773571"/>
+    <inertia ixx="0.009134" iyy="0.007444" izz="0.010645" ixy="-0.000109" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.02915 -0.035125 -0.09623" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/j3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.02915 -0.035125 -0.09623" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find arm_description)/meshes/j3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
 
-  <!-- base_joint fixes base_link to the environment -->
-  <joint name="base_joint" type="fixed">
-    <parent link="world" />
-    <child link="base_link" />
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <axis xyz="0 0 1" />
-  </joint>
+<joint name="j1_j2" type="revolute">
+  <origin xyz="0.02925 4.4e-05 -0.04332" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="j2_1"/>
+  <axis xyz="0.0 0.0 -1.0"/>
+  <limit upper="6.265732" lower="0.0" effort="${effort}" velocity="${velocity}"/>
+</joint>
 
-  <link name="j2">
-    <inertial>
-      <origin xyz="-4.995526395401573e-05 0.08189630150884797 0.11003474433619179" rpy="0 0 0" />
-      <mass value="13.236708010334862" />
-      <inertia ixx="0.037769" iyy="0.042685" izz="0.022945" ixy="0.0" iyz="-0.000135" ixz="0.0" />
-    </inertial>
-    <visual>
-      <origin xyz="-0.02925 -4.4e-05 0.04332" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find arm_description)/meshes/j2.stl" scale="0.001 0.001 0.001" />
-      </geometry>
-      <material name="black" />
-    </visual>
-    <collision>
-      <origin xyz="-0.02925 -4.4e-05 0.04332" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find arm_description)/meshes/j2.stl" scale="0.001 0.001 0.001" />
-      </geometry>
-    </collision>
-  </link>
-
-  <link name="j3">
-    <inertial>
-      <origin xyz="-0.10862594613593025 -0.05360196950323787 -4.739058210631586e-05" rpy="0 0 0" />
-      <mass value="6.378639750773571" />
-      <inertia ixx="0.009134" iyy="0.007444" izz="0.010645" ixy="-0.000109" iyz="-0.0" ixz="-0.0" />
-    </inertial>
-    <visual>
-      <origin xyz="-0.02915 -0.035125 -0.09623" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find arm_description)/meshes/j3.stl" scale="0.001 0.001 0.001" />
-      </geometry>
-      <material name="black" />
-    </visual>
-    <collision>
-      <origin xyz="-0.02915 -0.035125 -0.09623" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find arm_description)/meshes/j3.stl" scale="0.001 0.001 0.001" />
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="joint_1" type="revolute">
-    <origin xyz="0.02925 4.4e-05 -0.04332" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="j2" />
-    <axis xyz="0.0 0.0 -1.0" />
-    <limit upper="6.265732" lower="0.0" effort="${effort}" velocity="${velocity}"  />
-  </joint>
-
-  <joint name="joint_2" type="revolute">
-    <origin xyz="-0.0001 0.035081 0.13955" rpy="0 0 0" />
-    <parent link="j2" />
-    <child link="j3" />
-    <axis xyz="0.0 1.0 0.0" />
-    <limit upper="3.141593" lower="0.0" effort="${effort}" velocity="${velocity}"  />
-  </joint>
+<joint name="j2_j3" type="revolute">
+  <origin xyz="-0.0001 0.035081 0.13955" rpy="0 0 0"/>
+  <parent link="j2_1"/>
+  <child link="j3_1"/>
+  <axis xyz="0.0 1.0 0.0"/>
+  <limit upper="3.141593" lower="0.0" effort="${effort}" velocity="${velocity}"/>
+</joint>
 
 </robot>
