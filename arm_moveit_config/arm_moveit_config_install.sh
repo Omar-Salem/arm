@@ -1,7 +1,5 @@
 #!/bin/bash
 
-sudo apt update && sudo apt upgrade -y
-sudo apt-get install ros-jazzy-moveit -y
 ros2 launch moveit_setup_assistant setup_assistant.launch.py
 
 cd arm_ws

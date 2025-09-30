@@ -3,7 +3,7 @@
 # Requirements
 ## Jazzy
 ```bash
-sudo apt update && sudo apt upgrade
+sudo apt update && sudo apt install --reinstall ca-certificates && sudo apt upgrade -y
 
 # Set locale
 locale  # check for UTF-8
@@ -21,7 +21,11 @@ sudo add-apt-repository universe -y
 
 # Now add the ROS 2 GPG key with apt.
 sudo apt update && sudo apt install curl -y
-sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+# sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+sudo mkdir -p /usr/share/keyrings
+curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | \
+  gpg --dearmor | sudo tee /usr/share/keyrings/ros-archive-keyring.gpg > /dev/null
+
 
 # Then add the repository to your sources list.
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
@@ -69,6 +73,30 @@ sudo apt install -y ros-${ROS_DISTRO}-ros-gz
 sudo apt install -y ros-${ROS_DISTRO}-gz-ros2-control
 sudo apt install vim -y
 sudo usermod -aG dialout ${USER}
+````
+
+## Moveit
+````bash
+sudo rosdep init
+rosdep update
+sudo apt update
+sudo apt dist-upgrade
+
+sudo apt install python3-colcon-common-extensions
+sudo apt install python3-colcon-mixin
+colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+colcon mixin update default
+
+sudo apt install python3-vcstool
+
+mkdir -p ~/ws_moveit/src
+cd ~/ws_moveit/src
+git clone -b $ROS_DISTRO https://github.com/moveit/moveit2_tutorials
+vcs import --recursive < moveit2_tutorials/moveit2_tutorials.repos
+sudo apt remove ros-$ROS_DISTRO-moveit*
+sudo apt update && rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
+cd ~/ws_moveit
+colcon build --mixin release
 ````
 
 ## microros
