@@ -26,12 +26,21 @@ const int joint_1_dir = 14;
 const int joint_2_step = 12;
 const int joint_2_dir = 14;
 
+const int joint_3_step = 12;
+const int joint_3_dir = 14;
+
+const int joint_4_step = 12;
+const int joint_4_dir = 14;
+
 const double joint_1_reduction = 64;
 const double joint_2_reduction = 64;
 const double joint_3_reduction = 25;
+const double joint_4_reduction = 25;
 
 TwoPinStepperMotor joint_1(joint_1_step, joint_1_dir, joint_1_reduction);
 TwoPinStepperMotor joint_2(joint_2_step, joint_2_dir, joint_2_reduction);
+TwoPinStepperMotor joint_3(joint_3_step, joint_3_dir, joint_3_reduction);
+TwoPinStepperMotor joint_2(joint_4_step, joint_4_dir, joint_4_reduction);
 
 TwoPinStepperMotor *motors[1] = {
     &joint_1,
@@ -57,6 +66,8 @@ void timer_callback(rcl_timer_t *timer, int64_t last_call_time)
         arm_interfaces__msg__Motors motorsState;
         motorsState.joint_1 = joint_1.getPosition();
         motorsState.joint_2 = joint_2.getPosition();
+        motorsState.joint_3 = joint_3.getPosition();
+        motorsState.joint_4 = joint_4.getPosition();
         RCSOFTCHECK(rcl_publish(&publisher, &motorsState, NULL));
     }
 }
@@ -66,6 +77,8 @@ void subscription_callback(const void *msgin)
     const arm_interfaces__msg__Motors *command = (const arm_interfaces__msg__Motors *)msgin;
     joint_1.moveTo(command->joint_1);
     joint_2.moveTo(command->joint_2);
+    joint_3.moveTo(command->joint_3);
+    joint_4.moveTo(command->joint_4);
 }
 
 void setup()
