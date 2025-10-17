@@ -6,11 +6,11 @@
   <xacro:property name="effort" value="30" />
   <xacro:property name="velocity" value="10" />
 
+
   <link name="base_link">
     <inertial>
       <origin xyz="-3.761553966664625e-05 -0.1220000846362575 -0.1959085967473651" rpy="0 0 0" />
       <mass value="13.228344600133466" />
-      <inertia ixx="0.022903" iyy="0.037514" izz="0.042472" ixy="0.0" iyz="-0.0" ixz="-3.5e-05" />
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -28,6 +28,12 @@
       </geometry>
     </collision>
   </link>
+
+  <link name="world" />
+  <joint name="world_to_base" type="fixed">
+    <parent link="world" />
+    <child link="base_link" />
+  </joint>
 
   <link name="j1_1">
     <inertial>

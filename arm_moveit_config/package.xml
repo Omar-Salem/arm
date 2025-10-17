@@ -6,15 +6,15 @@
   <description>
      An automatically generated package with all the configuration and launch files for using the arm with the MoveIt Motion Planning Framework
   </description>
-  <maintainer email="omar@aol.com">omar@aol.com</maintainer>
+  <maintainer email="omar.gamil.salem@gmail.com">Omar Salem</maintainer>
 
   <license>BSD-3-Clause</license>
 
   <url type="website">http://moveit.ros.org/</url>
-  <url type="bugtracker">https://github.com/ros-planning/moveit2/issues</url>
-  <url type="repository">https://github.com/ros-planning/moveit2</url>
+  <url type="bugtracker">https://github.com/moveit/moveit2/issues</url>
+  <url type="repository">https://github.com/moveit/moveit2</url>
 
-  <author email="omar@aol.com">omar@aol.com</author>
+  <author email="omar.gamil.salem@gmail.com">Omar Salem</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
